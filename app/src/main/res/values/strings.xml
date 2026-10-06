@@ -63,4 +63,13 @@
 
     <!-- Estados -->
     <string name="estado_cargando">Cargando…</string>
+
+    <!-- Menú superior -->
+    <string name="menu_mas">Más opciones</string>
+    <string name="menu_resetear_ejemplos">Resetear datos de ejemplo</string>
+
+    <!-- Diálogo resetear -->
+    <string name="dialog_resetear_titulo">¿Resetear datos de ejemplo?</string>
+    <string name="dialog_resetear_detalle">Se borrarán todos los ingredientes actuales y se restaurarán los 3 de demostración. Esta acción no se puede deshacer.</string>
+    <string name="dialog_resetear_confirmar">Resetear</string>
 </resources>

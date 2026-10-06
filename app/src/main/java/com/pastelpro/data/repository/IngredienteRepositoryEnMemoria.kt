@@ -37,6 +37,14 @@ class IngredienteRepositoryEnMemoria : IngredienteRepository {
         _ingredientes.update { lista -> lista.filterNot { it.id == id } }
     }
 
+    override suspend fun eliminarTodos() {
+        _ingredientes.value = emptyList()
+    }
+
+    override suspend fun reiniciarEjemplos() {
+        _ingredientes.value = datosDeEjemplo()
+    }
+
     private fun datosDeEjemplo(): List<Ingrediente> = listOf(
         Ingrediente(
             nombre = "Harina de trigo",

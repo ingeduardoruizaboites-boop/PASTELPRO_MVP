@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,9 +15,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -25,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -53,6 +60,8 @@ fun IngredientesScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     var mostrarSheet by remember { mutableStateOf(false) }
+    var mostrarMenu by remember { mutableStateOf(false) }
+    var mostrarConfirmReset by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -67,15 +76,44 @@ fun IngredientesScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.accion_volver)
                         )
+                    }
+                },
+                actions = {
+                    Box {
+                        IconButton(onClick = { mostrarMenu = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.MoreVert,
+                                contentDescription = stringResource(R.string.menu_mas)
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = mostrarMenu,
+                            onDismissRequest = { mostrarMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.menu_resetear_ejemplos)) },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Filled.Refresh,
+                                        contentDescription = null
+                                    )
+                                },
+                                onClick = {
+                                    mostrarMenu = false
+                                    mostrarConfirmReset = true
+                                }
+                            )
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.primary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.primary
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary,
+                    actionIconContentColor = MaterialTheme.colorScheme.primary
                 )
             )
         },
@@ -85,7 +123,10 @@ fun IngredientesScreen(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
-                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.ingredientes_agregar))
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.ingredientes_agregar)
+                )
             }
         }
     ) { padding ->
@@ -101,7 +142,7 @@ fun IngredientesScreen(
                     }
                 }
                 IngredientesUiState.Vacio -> {
-                    EmptyState(onAgregar = { mostrarSheet = true })
+                    EmptyState()
                 }
                 is IngredientesUiState.ConDatos -> {
                     LazyColumn(
@@ -109,9 +150,7 @@ fun IngredientesScreen(
                             .fillMaxSize()
                             .padding(horizontal = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                            top = 8.dp, bottom = 88.dp
-                        )
+                        contentPadding = PaddingValues(top = 8.dp, bottom = 88.dp)
                     ) {
                         items(s.ingredientes, key = { it.id }) { ing ->
                             IngredienteCard(
@@ -134,10 +173,40 @@ fun IngredientesScreen(
             }
         )
     }
+
+    if (mostrarConfirmReset) {
+        AlertDialog(
+            onDismissRequest = { mostrarConfirmReset = false },
+            title = { Text(stringResource(R.string.dialog_resetear_titulo)) },
+            text = { Text(stringResource(R.string.dialog_resetear_detalle)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.reiniciarEjemplos()
+                        mostrarConfirmReset = false
+                    }
+                ) {
+                    Text(
+                        text = stringResource(R.string.dialog_resetear_confirmar),
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { mostrarConfirmReset = false }) {
+                    Text(
+                        text = stringResource(R.string.accion_cancelar),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        )
+    }
 }
 
 @Composable
-private fun EmptyState(onAgregar: () -> Unit) {
+private fun EmptyState() {
     Column(
         modifier = Modifier
             .fillMaxSize()

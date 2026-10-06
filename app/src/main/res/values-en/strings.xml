@@ -58,4 +58,13 @@
 
     <!-- States -->
     <string name="estado_cargando">Loading…</string>
+
+    <!-- Top menu -->
+    <string name="menu_mas">More options</string>
+    <string name="menu_resetear_ejemplos">Reset sample data</string>
+
+    <!-- Reset dialog -->
+    <string name="dialog_resetear_titulo">Reset sample data?</string>
+    <string name="dialog_resetear_detalle">All current ingredients will be deleted and the 3 demo items restored. This action cannot be undone.</string>
+    <string name="dialog_resetear_confirmar">Reset</string>
 </resources>

@@ -58,4 +58,13 @@
 
     <!-- Estados -->
     <string name="estado_cargando">Carregando…</string>
+
+    <!-- Menu superior -->
+    <string name="menu_mas">Mais opções</string>
+    <string name="menu_resetear_ejemplos">Restaurar dados de exemplo</string>
+
+    <!-- Diálogo -->
+    <string name="dialog_resetear_titulo">Restaurar dados de exemplo?</string>
+    <string name="dialog_resetear_detalle">Todos os ingredientes atuais serão excluídos e os 3 de demonstração restaurados. Esta ação não pode ser desfeita.</string>
+    <string name="dialog_resetear_confirmar">Restaurar</string>
 </resources>

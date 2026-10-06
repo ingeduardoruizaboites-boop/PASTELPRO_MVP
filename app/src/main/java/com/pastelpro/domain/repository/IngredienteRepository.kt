@@ -14,4 +14,12 @@ interface IngredienteRepository {
     suspend fun agregar(ingrediente: Ingrediente)
     suspend fun actualizar(ingrediente: Ingrediente)
     suspend fun eliminar(id: String)
+    suspend fun eliminarTodos()
+
+    /**
+     * Reinicia el estado de ejemplos.
+     * Borra todos los ingredientes y vuelve a cargar los 3 de demostración.
+     * Útil al inicio para limpiar datos de prueba.
+     */
+    suspend fun reiniciarEjemplos()
 }
