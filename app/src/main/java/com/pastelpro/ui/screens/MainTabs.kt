@@ -34,7 +34,7 @@ import com.pastelpro.ui.theme.Neutral700
 import com.pastelpro.ui.theme.White
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onNuevoPastel: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +59,7 @@ fun HomeScreen() {
 
         // ── CTA principal · tarjeta compacta, no botón gigante ──
         Button(
-            onClick = { /* Bloque 2 conectará esto */ },
+            onClick = onNuevoPastel,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp),

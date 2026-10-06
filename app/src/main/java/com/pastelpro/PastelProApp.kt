@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pastelpro.ui.navigation.Routes
 import com.pastelpro.ui.navigation.bottomNavItems
 import com.pastelpro.ui.screens.HomeScreen
+import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
 import com.pastelpro.ui.screens.MoreScreen
 import com.pastelpro.ui.screens.OrdersScreen
 import com.pastelpro.ui.screens.RecipesScreen
@@ -67,13 +68,19 @@ fun PastelProApp() {
         }
 
         composable(Routes.MAIN) {
-            MainScaffold()
+            MainScaffold(onIrIngredientes = {
+                navController.navigate(Routes.INGREDIENTES)
+            })
+        }
+
+        composable(Routes.INGREDIENTES) {
+            IngredientesScreen(onBack = { navController.popBackStack() })
         }
     }
 }
 
 @Composable
-private fun MainScaffold() {
+private fun MainScaffold(onIrIngredientes: () -> Unit) {
     val innerNav = rememberNavController()
     val backStack by innerNav.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route ?: Routes.HOME
@@ -121,7 +128,7 @@ private fun MainScaffold() {
             startDestination = Routes.HOME,
             modifier = Modifier.padding(padding)
         ) {
-            composable(Routes.HOME) { HomeScreen() }
+            composable(Routes.HOME) { HomeScreen(onNuevoPastel = onIrIngredientes) }
             composable(Routes.RECIPES) { RecipesScreen() }
             composable(Routes.ORDERS) { OrdersScreen() }
             composable(Routes.SHOPPING) { ShoppingScreen() }

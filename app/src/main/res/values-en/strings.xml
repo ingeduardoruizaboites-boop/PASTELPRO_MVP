@@ -33,4 +33,29 @@
     <string name="home_new_cake">New cake</string>
     <string name="placeholder_coming_soon">Coming soon</string>
     <string name="placeholder_coming_soon_detail">This section will be available in upcoming MVP versions.</string>
+
+    <!-- Ingredients -->
+    <string name="ingredientes_titulo">Ingredients</string>
+    <string name="ingredientes_agregar">Add ingredient</string>
+    <string name="ingredientes_nuevo_titulo">New ingredient</string>
+    <string name="ingredientes_vacio_titulo">No ingredients yet</string>
+    <string name="ingredientes_vacio_detalle">Add your first ingredient to start calculating costs.</string>
+
+    <!-- Fields -->
+    <string name="campo_nombre">Name</string>
+    <string name="campo_categoria">Category</string>
+    <string name="campo_presentacion">Purchase presentation</string>
+    <string name="campo_cantidad">Quantity</string>
+    <string name="campo_unidad">Unit</string>
+    <string name="campo_precio">Price</string>
+    <string name="campo_proveedor">Supplier (optional)</string>
+
+    <!-- Actions -->
+    <string name="accion_volver">Back</string>
+    <string name="accion_eliminar">Delete</string>
+    <string name="accion_cancelar">Cancel</string>
+    <string name="accion_guardar">Save</string>
+
+    <!-- States -->
+    <string name="estado_cargando">Loading…</string>
 </resources>

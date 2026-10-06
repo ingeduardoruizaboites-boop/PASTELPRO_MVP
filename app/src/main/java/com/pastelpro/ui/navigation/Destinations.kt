@@ -18,6 +18,7 @@ object Routes {
     const val ORDERS = "orders"
     const val SHOPPING = "shopping"
     const val MORE = "more"
+    const val INGREDIENTES = "ingredientes"
 }
 
 data class BottomNavItem(

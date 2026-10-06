@@ -38,4 +38,29 @@
     <string name="home_new_cake">Nuevo pastel</string>
     <string name="placeholder_coming_soon">Próximamente</string>
     <string name="placeholder_coming_soon_detail">Esta sección estará disponible en las siguientes versiones del MVP.</string>
+
+    <!-- Ingredientes -->
+    <string name="ingredientes_titulo">Ingredientes</string>
+    <string name="ingredientes_agregar">Agregar ingrediente</string>
+    <string name="ingredientes_nuevo_titulo">Nuevo ingrediente</string>
+    <string name="ingredientes_vacio_titulo">Aún no hay ingredientes</string>
+    <string name="ingredientes_vacio_detalle">Agrega tu primer ingrediente para empezar a calcular costos.</string>
+
+    <!-- Campos -->
+    <string name="campo_nombre">Nombre</string>
+    <string name="campo_categoria">Categoría</string>
+    <string name="campo_presentacion">Presentación de compra</string>
+    <string name="campo_cantidad">Cantidad</string>
+    <string name="campo_unidad">Unidad</string>
+    <string name="campo_precio">Precio</string>
+    <string name="campo_proveedor">Proveedor (opcional)</string>
+
+    <!-- Acciones -->
+    <string name="accion_volver">Volver</string>
+    <string name="accion_eliminar">Eliminar</string>
+    <string name="accion_cancelar">Cancelar</string>
+    <string name="accion_guardar">Guardar</string>
+
+    <!-- Estados -->
+    <string name="estado_cargando">Cargando…</string>
 </resources>
