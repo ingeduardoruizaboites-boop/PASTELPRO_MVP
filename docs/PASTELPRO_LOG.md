@@ -249,3 +249,52 @@ En Bloque 3 (motor de costos), añadir tests unitarios JUnit.
 - Bloque 3: motor de costos.
 - Prueba en Cubot KingKong 5.
 - Diseño de migraciones Room para futuras entidades.
+
+---
+
+## ENTRADA — 2026-10-06 · Sesión 3 · Bloques 3A, 3B, 3C cerrados
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Construir el motor de cálculos puro (Kotlin, sin Android) con tests unitarios JUnit.
+
+### QUÉ SE HIZO
+- **3A:** MotorUnidades + MotorCostoIngrediente. 14 tests.
+- **3B:** MotorEscalado. 24 tests. Redondeo CEILING para discretas, HALF_UP para fraccionables.
+- **3C:** MotorManoObra + MotorEnergia + MotorMerma. 26 tests.
+- **Total:** 6 motores, 64 tests, 0 fallos.
+
+### ARCHIVOS
+- `engine/Unidad.kt` — enum con categoría + factor base
+- `engine/MotorUnidades.kt` — conversión entre unidades compatibles
+- `engine/MotorCostoIngrediente.kt` — costo de uso de ingrediente
+- `engine/MotorEscalado.kt` — escalado por personas/piezas con redondeo por tipo
+- `engine/MotorManoObra.kt` — horas × valor_hora + ganancia por hora
+- `engine/MotorEnergia.kt` — prorrateo mensual (marcado como ESTIMACIÓN)
+- `engine/MotorMerma.kt` — costo antes/merma/total (§31)
+- 6 archivos de test con JUnit 4.13.2
+
+### COMANDOS
+- `./gradlew test` → BUILD SUCCESSFUL
+- 64 tests: 0 failures
+
+### BUILD
+PASS · sin warnings.
+
+### TESTS
+64/64 PASS.
+
+### DISPOSITIVO
+N/A (motor puro, sin UI todavía).
+
+### RESULTADO REAL
+Motor de cálculos validado matemáticamente. Listo para conectar a UI en Bloques 4+.
+
+### HIPÓTESIS DESCARTADAS
+Ninguna — motor limpio desde el inicio.
+
+### SUGERENCIA
+Validación con precios reales de pasteles antes de cerrar Bloque 3.
+
+### DEUDA/PENDIENTE
+- Bloque 3D: MotorPrecio (margen vs markup).
+- Conexión motor ↔ UI en Bloque 4 (Recetas).
