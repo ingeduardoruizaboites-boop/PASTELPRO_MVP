@@ -114,3 +114,72 @@ Toggle manual de apariencia (Sistema / Claro / Oscuro) persistido en DataStore.
 - Captura dark mode en bitácora.
 - Prueba en Cubot KingKong 5.
 - Bloque 2: Room + primer vertical slice (Ingredientes).
+
+---
+
+## ENTRADA — 2026-10-06 · Sesión 2 · Bloque 2A + 2A-bis cerrados
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Validar arquitectura completa UI ↔ ViewModel ↔ Repository (sin Room) con el primer dominio funcional: Ingredientes.
+
+### QUÉ SE HIZO
+- Bloque 2A: pantalla Ingredientes funcional con 3 datos de ejemplo en memoria.
+  - Botón "+ Nuevo pastel" en Home navega a Ingredientes.
+  - Bottom Sheet para crear ingrediente (nombre, categoría, presentación, cantidad, unidad, precio, proveedor).
+  - Lista con tarjetas, eliminar por ítem.
+  - Estados: Cargando / Vacío / Con datos.
+- Bloque 2A-bis: botón "Resetear datos de ejemplo" en menú ⋮ con diálogo de confirmación.
+- Fix `Icons.Filled.ArrowBack` deprecated → `Icons.AutoMirrored.Filled.ArrowBack`.
+- i18n ES/EN/PT completos para todas las cadenas nuevas.
+
+### ARCHIVOS
+- `domain/model/Ingrediente.kt`
+- `domain/repository/IngredienteRepository.kt`
+- `data/repository/IngredienteRepositoryEnMemoria.kt`
+- `data/repository/RepositorioProvider.kt`
+- `ui/screens/ingredientes/{IngredientesScreen,IngredientesViewModel,CrearIngredienteSheet}.kt`
+- `ui/navigation/Destinations.kt` (+ ruta INGREDIENTES)
+- `PastelProApp.kt` (registro de ruta + callback Home)
+- `res/values{,-en,-pt}/strings.xml` (+ 24 cadenas)
+- `app/build.gradle.kts` (+ lifecycle-viewmodel-compose 2.8.6)
+
+### COMANDOS
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL in 1m 18s (sin warnings)
+- `find app/build/outputs/apk/debug -name "*.apk"` → 16 MB
+- `git push origin main` → ae4b15b
+
+### BUILD
+PASS · sin warnings.
+
+### TESTS
+N/A (aún sin tests unitarios — se añaden en Bloque 3 con motor de costos).
+
+### DISPOSITIVO
+- Xiaomi Redmi 9S · flujo completo validado:
+  - Navegación Home → Ingredientes ✅
+  - Alta de ingrediente vía Bottom Sheet ✅
+  - Lista reactiva ✅
+  - Eliminación individual ✅
+  - Reset de ejemplos con diálogo ✅
+  - Light y dark mode correctos ✅
+- Cubot KingKong 5: pendiente.
+
+### RESULTADO REAL
+- Arquitectura validada de punta a punta.
+- UI y ViewModel funcionan sin conocer la implementación del Repository.
+- El patrón es replicable: cuando metamos Room en 2B, solo cambia el Repository.
+
+### ¿ERA FIX?
+Sí — reset de ejemplos funciona. ArrowBack deprecated resuelto.
+
+### HIPÓTESIS DESCARTADAS
+- "Material3 AlertDialog tiene problemas con tema oscuro custom" → FALSO, se ve perfecto.
+- "Bottom Sheet necesita configuración especial en dark mode" → FALSO, respeta el tema automáticamente.
+
+### SUGERENCIA
+`git tag v0.1.0-en-memoria` antes de Bloque 2B (Room) como punto de retorno.
+
+### DEUDA/PENDIENTE
+- Bloque 2B: Room real (persistencia).
+- Prueba en Cubot KingKong 5.
+- Tests unitarios del motor de costos (Bloque 3).
