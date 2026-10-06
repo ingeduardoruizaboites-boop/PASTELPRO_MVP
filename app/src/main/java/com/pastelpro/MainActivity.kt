@@ -11,15 +11,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.pastelpro.ui.theme.DarkBackground
+import com.pastelpro.data.repository.RepositorioProvider
 import com.pastelpro.ui.theme.PastelProTheme
-import com.pastelpro.ui.theme.Cream
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Scrim transparente; los iconos se ajustan abajo según tema
+        // Inicializar el Service Locator ANTES de setContent.
+        RepositorioProvider.init(applicationContext)
+
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.auto(
                 lightScrim = Color.Transparent.toArgb(),
@@ -35,7 +36,6 @@ class MainActivity : ComponentActivity() {
             val darkTheme = isSystemInDarkTheme()
             val view = LocalView.current
 
-            // Ajustar contraste de iconos de barras del sistema según el tema actual
             LaunchedEffect(darkTheme) {
                 val window = (view.context as ComponentActivity).window
                 WindowCompat.getInsetsController(window, view).apply {

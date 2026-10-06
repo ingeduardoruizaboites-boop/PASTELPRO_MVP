@@ -1,51 +1,52 @@
 package com.pastelpro.data.repository
 
+import com.pastelpro.data.local.IngredienteDao
+import com.pastelpro.data.local.mapper.IngredienteMapper
 import com.pastelpro.domain.model.Ingrediente
 import com.pastelpro.domain.repository.IngredienteRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
 
 /**
- * Implementación en memoria — SOLO para validar la arquitectura del Bloque 2A.
- * En Bloque 2B se reemplaza por IngredienteRepositoryRoom SIN tocar UI ni ViewModel.
- *
- * Los datos NO persisten al cerrar la app (intencional).
+ * Implementación real con Room.
+ * La UI y el ViewModel NO saben que esto existe — solo ven IngredienteRepository.
  */
-class IngredienteRepositoryEnMemoria : IngredienteRepository {
+class IngredienteRepositoryRoom(
+    private val dao: IngredienteDao
+) : IngredienteRepository {
 
-    private val _ingredientes = MutableStateFlow<List<Ingrediente>>(datosDeEjemplo())
-
-    override fun observarTodos(): Flow<List<Ingrediente>> = _ingredientes.asStateFlow()
+    override fun observarTodos(): Flow<List<Ingrediente>> =
+        dao.observarTodos().map { entities ->
+            entities.map(IngredienteMapper::aDominio)
+        }
 
     override suspend fun obtener(id: String): Ingrediente? =
-        _ingredientes.value.firstOrNull { it.id == id }
+        dao.obtener(id)?.let(IngredienteMapper::aDominio)
 
     override suspend fun agregar(ingrediente: Ingrediente) {
-        _ingredientes.update { lista -> lista + ingrediente }
+        dao.insertar(IngredienteMapper.aEntity(ingrediente))
     }
 
     override suspend fun actualizar(ingrediente: Ingrediente) {
-        _ingredientes.update { lista ->
-            lista.map { if (it.id == ingrediente.id) ingrediente else it }
-        }
+        dao.actualizar(IngredienteMapper.aEntity(ingrediente))
     }
 
     override suspend fun eliminar(id: String) {
-        _ingredientes.update { lista -> lista.filterNot { it.id == id } }
+        val actual = dao.obtener(id) ?: return
+        dao.eliminar(actual)
     }
 
     override suspend fun eliminarTodos() {
-        _ingredientes.value = emptyList()
+        dao.eliminarTodos()
     }
 
     override suspend fun reiniciarEjemplos() {
-        _ingredientes.value = datosDeEjemplo()
+        dao.eliminarTodos()
+        dao.insertarVarios(ejemplos().map(IngredienteMapper::aEntity))
     }
 
-    private fun datosDeEjemplo(): List<Ingrediente> = listOf(
+    private fun ejemplos(): List<Ingrediente> = listOf(
         Ingrediente(
             nombre = "Harina de trigo",
             categoria = "Harinas",
