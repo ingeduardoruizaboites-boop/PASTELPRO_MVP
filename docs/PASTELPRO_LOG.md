@@ -298,3 +298,57 @@ Validación con precios reales de pasteles antes de cerrar Bloque 3.
 ### DEUDA/PENDIENTE
 - Bloque 3D: MotorPrecio (margen vs markup).
 - Conexión motor ↔ UI en Bloque 4 (Recetas).
+
+---
+
+## ENTRADA — 2026-10-06 · Sesión 3 · Bloque 3D cerrado · MOTOR COMPLETO
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Cerrar el motor de cálculos puro con MotorPrecio (margen vs markup).
+
+### QUÉ SE HIZO
+- `engine/MotorPrecio.kt` con margen vs markup diferenciados matemáticamente.
+- 20 tests JUnit. 2 bugs de test corregidos en 3D-bis + 1 bug real del motor (precio=0).
+- **Motor completo: 7 motores, 84 tests, 0 fallos.**
+
+### ARCHIVOS
+- `engine/MotorPrecio.kt`
+- `test/engine/MotorPrecioTest.kt`
+
+### COMANDOS
+- `./gradlew test` → BUILD SUCCESSFUL in 10s · 84 tests, 0 fallos
+- `git tag v0.3.0-motor-completo` → pusheado
+
+### BUILD
+PASS · sin warnings.
+
+### TESTS
+84/84 PASS. Cobertura acumulada de:
+- Unidades (masa, volumen, conteo)
+- Costo de ingrediente
+- Escalado (personas, piezas)
+- Mano de obra (horas, desglose, ganancia por hora)
+- Energía (prorrateo mensual)
+- Merma (antes/merma/total)
+- Precio (margen vs markup + 3 precios sugeridos)
+
+### DISPOSITIVO
+N/A (motor puro, sin UI aún).
+
+### RESULTADO REAL
+Motor matemáticamente validado. Listo para conectar a UI.
+
+### ¿ERA FIX?
+3D-bis: sí. Causa raíz: 1 caso borde real (precio=0) + 2 errores míos de aserción en tests. Corrección quirúrgica, sin refactor.
+
+### HIPÓTESIS DESCARTADAS
+- "El motor tenía bug estructural" → FALSO, era un caso borde defensivo.
+- "Margen y markup dan el mismo resultado" → FALSO, con costo $100 y 40%: margen da $166.67, markup da $140.00.
+
+### SUGERENCIA
+Crear test de integración con 3 pasteles reales (§77 del Maestro).
+
+### DEUDA/PENDIENTE
+- Validación con datos reales de Eduardo + esposa.
+- Bloque 4: UI de Recetas que consuma el motor.
+- Bloque 5: UI de costo + precio con los 3 precios sugeridos.
