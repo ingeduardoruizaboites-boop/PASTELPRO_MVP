@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PastelPro</string>
+    <string name="app_tagline">Sabe cuánto te cuesta. Sabe cuánto ganas.</string>
+
+    <!-- Splash -->
+    <string name="splash_subtitle">Tu asistente de repostería</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Bienvenida a PastelPro</string>
+    <string name="welcome_subtitle">Calcula el costo real de tus pasteles y cuánto deberías cobrar.</string>
+    <string name="welcome_continue">Comenzar</string>
+    <string name="welcome_have_account">Ya tengo cuenta</string>
+
+    <!-- Setup -->
+    <string name="setup_step_of">Paso %1$d de %2$d</string>
+    <string name="setup_title_how">¿Cómo trabajas?</string>
+    <string name="setup_option_home">Hago pasteles desde casa</string>
+    <string name="setup_option_small_business">Tengo un pequeño negocio</string>
+    <string name="setup_option_occasional">Hago pasteles ocasionalmente</string>
+    <string name="setup_title_currency">¿Qué moneda usas?</string>
+    <string name="setup_title_business">¿Cómo se llama tu negocio?</string>
+    <string name="setup_business_hint">Opcional</string>
+    <string name="setup_next">Continuar</string>
+    <string name="setup_back">Atrás</string>
+    <string name="setup_finish">Empezar a usar PastelPro</string>
+
+    <!-- Main tabs -->
+    <string name="tab_home">Inicio</string>
+    <string name="tab_recipes">Recetas</string>
+    <string name="tab_orders">Pedidos</string>
+    <string name="tab_shopping">Compras</string>
+    <string name="tab_more">Más</string>
+
+    <!-- Placeholder screens -->
+    <string name="home_greeting">Hola</string>
+    <string name="home_question">¿Qué vamos a preparar hoy?</string>
+    <string name="home_new_cake">Nuevo pastel</string>
+    <string name="placeholder_coming_soon">Próximamente</string>
+    <string name="placeholder_coming_soon_detail">Esta sección estará disponible en las siguientes versiones del MVP.</string>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PastelPro</string>
+    <string name="app_tagline">Know what it costs. Know what you earn.</string>
+
+    <string name="splash_subtitle">Your baking assistant</string>
+
+    <string name="welcome_title">Welcome to PastelPro</string>
+    <string name="welcome_subtitle">Calculate the real cost of your cakes and how much you should charge.</string>
+    <string name="welcome_continue">Get started</string>
+    <string name="welcome_have_account">I already have an account</string>
+
+    <string name="setup_step_of">Step %1$d of %2$d</string>
+    <string name="setup_title_how">How do you work?</string>
+    <string name="setup_option_home">I bake at home</string>
+    <string name="setup_option_small_business">I run a small business</string>
+    <string name="setup_option_occasional">I bake occasionally</string>
+    <string name="setup_title_currency">Which currency do you use?</string>
+    <string name="setup_title_business">What\'s your business name?</string>
+    <string name="setup_business_hint">Optional</string>
+    <string name="setup_next">Continue</string>
+    <string name="setup_back">Back</string>
+    <string name="setup_finish">Start using PastelPro</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_recipes">Recipes</string>
+    <string name="tab_orders">Orders</string>
+    <string name="tab_shopping">Shopping</string>
+    <string name="tab_more">More</string>
+
+    <string name="home_greeting">Hello</string>
+    <string name="home_question">What are we baking today?</string>
+    <string name="home_new_cake">New cake</string>
+    <string name="placeholder_coming_soon">Coming soon</string>
+    <string name="placeholder_coming_soon_detail">This section will be available in upcoming MVP versions.</string>
+</resources>
