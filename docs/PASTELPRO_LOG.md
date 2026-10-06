@@ -183,3 +183,69 @@ Sí — reset de ejemplos funciona. ArrowBack deprecated resuelto.
 - Bloque 2B: Room real (persistencia).
 - Prueba en Cubot KingKong 5.
 - Tests unitarios del motor de costos (Bloque 3).
+
+---
+
+## ENTRADA — 2026-10-06 · Sesión 2 · Bloque 2B cerrado (Room real)
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Reemplazar Repository en memoria por Room (SQLite) sin tocar UI ni ViewModel.
+
+### QUÉ SE HIZO
+- Añadido Room 2.6.1 + KSP 2.0.20-1.0.25.
+- Entity, DAO, Database, Mapper, RepositoryRoom.
+- Service Locator (`RepositorioProvider`) con `init(context)`.
+- `MainActivity.onCreate` inicializa el provider antes de setContent.
+- Eliminado `IngredienteRepositoryEnMemoria.kt` (obsoleto).
+- **CERO cambios en UI, ViewModel, ni Navigation.**
+- i18n intacto.
+
+### ARCHIVOS
+- `app/build.gradle.kts` (+ KSP + Room)
+- `build.gradle.kts` (raíz, + plugin KSP)
+- `data/local/IngredienteEntity.kt`
+- `data/local/IngredienteDao.kt`
+- `data/local/PastelProDatabase.kt`
+- `data/local/mapper/IngredienteMapper.kt`
+- `data/repository/IngredienteRepositoryRoom.kt`
+- `data/repository/RepositorioProvider.kt` (init con Context)
+- `MainActivity.kt` (init provider)
+- Eliminado: `data/repository/IngredienteRepositoryEnMemoria.kt`
+
+### COMANDOS
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL in 4m 28s (primera compilación con KSP)
+- 38 tasks ejecutados, 0 warnings
+
+### BUILD
+PASS · sin warnings.
+
+### TESTS
+N/A (aún sin tests unitarios).
+
+### DISPOSITIVO
+- Xiaomi Redmi 9S · Room confirmado:
+  - Ingredientes de ejemplo cargados al reset.
+  - "mantequilla" agregada manualmente.
+  - App cerrada por completo.
+  - App reabierta → los 4 ingredientes siguen ahí (incluido mantequilla).
+  - Persistencia real validada en disco.
+
+### RESULTADO REAL
+- Room escribe a SQLite correctamente.
+- Flow reactivo de Room → Repository → ViewModel → UI funciona.
+- Mapper Entity↔Domain convierte sin pérdida.
+- BigDecimal sobrevive ida y vuelta como TEXT.
+
+### ¿ERA FIX?
+No aplica — funcionalidad nueva completada.
+
+### HIPÓTESIS DESCARTADAS
+- "Room + KSP + AGP 8.5.2 tarda mucho en compilar" → normal en primera vez (4m 28s), incremental luego ~30s.
+
+### SUGERENCIA
+En Bloque 3 (motor de costos), añadir tests unitarios JUnit.
+
+### DEUDA/PENDIENTE
+- Bloque 3: motor de costos.
+- Prueba en Cubot KingKong 5.
+- Diseño de migraciones Room para futuras entidades.
