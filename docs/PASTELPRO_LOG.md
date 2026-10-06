@@ -56,3 +56,61 @@ Activar Issues en GitHub para bitácora paralela de pruebas físicas.
 - Compilar y validar Gradle en Sub-bloque 1A.
 - Crear código Kotlin + Compose en Sub-bloque 1B.
 - Primer APK debug.
+
+---
+
+## ENTRADA — 2026-10-05 · Sesión 1 · Bloque 1B + 1C cerrados
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Construir UI base (splash, onboarding, navegación 5 tabs), implementar tema claro + oscuro, y validar en dispositivo físico.
+
+### QUÉ SE HIZO
+- Bloque 1B: Kotlin + Jetpack Compose + Material 3 + Navigation Compose.
+- Splash (1.2s, fade-in 400ms) → Welcome → Setup 3 pasos → Main con 5 tabs.
+- Tema visual cálido-premium: crema + cacao + berry.
+- Bloque 1C: dark mode cálido real (dos color schemes) + edge-to-edge adaptativo + Home rediseñado (botón compacto, ya no `fillMaxSize` erróneo).
+- Refactor: pantallas usan `MaterialTheme.colorScheme.*` (no colores hardcodeados).
+
+### ARCHIVOS
+- Kotlin: `MainActivity.kt`, `PastelProApp.kt`
+- UI: `ui/theme/{Color,Theme,Type}.kt`, `ui/navigation/Destinations.kt`, `ui/screens/{Splash,Welcome,Setup,MainTabs}.kt`
+- Recursos: `AndroidManifest.xml`, `res/values{,-en,-pt}/strings.xml`, `res/values/{themes,colors}.xml`, `res/drawable/ic_launcher_pastelpro.xml`
+- Gradle: `app/build.gradle.kts`, `gradle.properties` (ajustado a Codespaces: heap 1.5 GB + Kotlin daemon 1 GB)
+- Docs: `docs/PASTELPRO_LOG.md` (esta entrada)
+
+### COMANDOS
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL (3m 22s primera vez, 9s incremental)
+- `git commit -m "feat(theme): dark mode cálido..."` → commit `a2f3588`
+
+### BUILD
+PASS
+
+### TESTS
+N/A (aún sin tests unitarios).
+
+### DISPOSITIVO
+- Xiaomi Redmi 9S · flujo completo validado en modo claro (capturas adjuntas en conversación).
+- Dark mode confirmado visualmente por el usuario (pendiente captura en bitácora).
+- Cubot KingKong 5: pendiente de prueba.
+
+### RESULTADO REAL
+- Navegación fluida, sin crashes.
+- Tema claro y oscuro funcionando, respeta al sistema.
+- Iconos de barra de estado adaptativos.
+
+### ¿ERA FIX?
+Sí — 2 errores resueltos:
+1. OOM de Gradle daemon (heap 2 GB → 1.5 GB + Kotlin daemon 1 GB).
+2. Botón Home con `fillMaxSize()` que ignoraba `height(64.dp)`.
+
+### HIPÓTESIS DESCARTADAS
+- "Java 25 funciona para Android" → FALSO, requiere JDK 17.
+- "El botón gigante era intencional" → FALSO, era bug.
+
+### SUGERENCIA
+Toggle manual de apariencia (Sistema / Claro / Oscuro) persistido en DataStore.
+
+### DEUDA/PENDIENTE
+- Captura dark mode en bitácora.
+- Prueba en Cubot KingKong 5.
+- Bloque 2: Room + primer vertical slice (Ingredientes).
