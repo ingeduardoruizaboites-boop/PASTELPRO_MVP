@@ -67,4 +67,13 @@
     <string name="dialog_resetear_titulo">Reset sample data?</string>
     <string name="dialog_resetear_detalle">All current ingredients will be deleted and the 3 demo items restored. This action cannot be undone.</string>
     <string name="dialog_resetear_confirmar">Reset</string>
+
+    <!-- Recipes -->
+    <string name="recetas_subtitulo">Your base recipes, ready to scale</string>
+    <string name="recetas_agregar">Add recipe</string>
+    <string name="recetas_nueva_titulo">New recipe</string>
+    <string name="recetas_vacio_titulo">No recipes yet</string>
+    <string name="recetas_vacio_detalle">Add your first recipe to start calculating your cake costs.</string>
+    <string name="campo_tipo">Cake type</string>
+    <string name="campo_rendimiento">Yield</string>
 </resources>

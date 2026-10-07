@@ -22,7 +22,7 @@ import com.pastelpro.ui.screens.HomeScreen
 import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
 import com.pastelpro.ui.screens.MoreScreen
 import com.pastelpro.ui.screens.OrdersScreen
-import com.pastelpro.ui.screens.RecipesScreen
+import com.pastelpro.ui.screens.recetas.RecetasScreen
 import com.pastelpro.ui.screens.SetupScreen
 import com.pastelpro.ui.screens.ShoppingScreen
 import com.pastelpro.ui.screens.SplashScreen
@@ -129,7 +129,7 @@ private fun MainScaffold(onIrIngredientes: () -> Unit) {
             modifier = Modifier.padding(padding)
         ) {
             composable(Routes.HOME) { HomeScreen(onNuevoPastel = onIrIngredientes) }
-            composable(Routes.RECIPES) { RecipesScreen() }
+            composable(Routes.RECIPES) { RecetasScreen() }
             composable(Routes.ORDERS) { OrdersScreen() }
             composable(Routes.SHOPPING) { ShoppingScreen() }
             composable(Routes.MORE) { MoreScreen() }

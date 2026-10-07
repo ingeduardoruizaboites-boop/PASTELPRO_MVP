@@ -67,4 +67,13 @@
     <string name="dialog_resetear_titulo">Restaurar dados de exemplo?</string>
     <string name="dialog_resetear_detalle">Todos os ingredientes atuais serão excluídos e os 3 de demonstração restaurados. Esta ação não pode ser desfeita.</string>
     <string name="dialog_resetear_confirmar">Restaurar</string>
+
+    <!-- Receitas -->
+    <string name="recetas_subtitulo">Suas receitas base, prontas para escalar</string>
+    <string name="recetas_agregar">Adicionar receita</string>
+    <string name="recetas_nueva_titulo">Nova receita</string>
+    <string name="recetas_vacio_titulo">Ainda sem receitas</string>
+    <string name="recetas_vacio_detalle">Adicione sua primeira receita para calcular os custos dos seus bolos.</string>
+    <string name="campo_tipo">Tipo de bolo</string>
+    <string name="campo_rendimiento">Rendimento</string>
 </resources>

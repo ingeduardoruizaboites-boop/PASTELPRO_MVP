@@ -6,13 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [IngredienteEntity::class],
-    version = 1,
+    entities = [
+        IngredienteEntity::class,
+        RecetaEntity::class,
+        RecetaIngredienteEntity::class
+    ],
+    version = 2,
     exportSchema = false
 )
 abstract class PastelProDatabase : RoomDatabase() {
 
     abstract fun ingredienteDao(): IngredienteDao
+    abstract fun recetaDao(): RecetaDao
 
     companion object {
         private const val NOMBRE = "pastelpro.db"
@@ -25,7 +30,11 @@ abstract class PastelProDatabase : RoomDatabase() {
                     context.applicationContext,
                     PastelProDatabase::class.java,
                     NOMBRE
-                ).build().also { INSTANCIA = it }
+                )
+                // Destructivo: MVP sin usuarios reales aún. En V1.1 se agregan migraciones.
+                .fallbackToDestructiveMigration()
+                .build()
+                .also { INSTANCIA = it }
             }
     }
 }

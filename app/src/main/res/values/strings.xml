@@ -72,4 +72,13 @@
     <string name="dialog_resetear_titulo">¿Resetear datos de ejemplo?</string>
     <string name="dialog_resetear_detalle">Se borrarán todos los ingredientes actuales y se restaurarán los 3 de demostración. Esta acción no se puede deshacer.</string>
     <string name="dialog_resetear_confirmar">Resetear</string>
+
+    <!-- Recetas -->
+    <string name="recetas_subtitulo">Tus recetas base, listas para escalar</string>
+    <string name="recetas_agregar">Agregar receta</string>
+    <string name="recetas_nueva_titulo">Nueva receta</string>
+    <string name="recetas_vacio_titulo">Aún no hay recetas</string>
+    <string name="recetas_vacio_detalle">Agrega tu primera receta para calcular costos de tus pasteles.</string>
+    <string name="campo_tipo">Tipo de pastel</string>
+    <string name="campo_rendimiento">Rendimiento</string>
 </resources>
