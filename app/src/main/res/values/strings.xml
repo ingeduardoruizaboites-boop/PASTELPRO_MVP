@@ -96,4 +96,11 @@
 
     <string name="agregar_ingrediente_sin_ingredientes">No tienes ingredientes aún</string>
     <string name="agregar_ingrediente_sin_ingredientes_detalle">Ve a la sección Ingredientes y agrega al menos uno para poder usarlo en tus recetas.</string>
+
+    <!-- Home accesos rápidos -->
+    <string name="home_accesos_rapidos">Accesos rápidos</string>
+    <string name="home_acceso_recetas">Ver recetas</string>
+    <string name="home_acceso_ingredientes">Ingredientes</string>
+    <string name="home_acceso_compras">Compras</string>
+    <string name="home_acceso_moldes">Mis moldes</string>
 </resources>

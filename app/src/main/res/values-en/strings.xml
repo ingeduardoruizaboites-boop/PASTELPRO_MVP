@@ -91,4 +91,11 @@
 
     <string name="agregar_ingrediente_sin_ingredientes">No ingredients yet</string>
     <string name="agregar_ingrediente_sin_ingredientes_detalle">Go to the Ingredients section and add at least one to use it in your recipes.</string>
+
+    <!-- Home quick access -->
+    <string name="home_accesos_rapidos">Quick access</string>
+    <string name="home_acceso_recetas">View recipes</string>
+    <string name="home_acceso_ingredientes">Ingredients</string>
+    <string name="home_acceso_compras">Shopping</string>
+    <string name="home_acceso_moldes">My molds</string>
 </resources>

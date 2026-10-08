@@ -146,7 +146,13 @@ private fun MainScaffold(
             startDestination = Routes.HOME,
             modifier = Modifier.padding(padding)
         ) {
-            composable(Routes.HOME) { HomeScreen(onNuevoPastel = onIrIngredientes) }
+            composable(Routes.HOME) {
+                HomeScreen(
+                    onNuevoPastel = { /* Wizard Bloque 5 */ },
+                    onVerRecetas = { innerNav.navigate(Routes.RECIPES) },
+                    onVerIngredientes = onIrIngredientes
+                )
+            }
             composable(Routes.RECIPES) {
                 RecetasScreen(onRecetaClick = onIrRecetaDetalle)
             }
