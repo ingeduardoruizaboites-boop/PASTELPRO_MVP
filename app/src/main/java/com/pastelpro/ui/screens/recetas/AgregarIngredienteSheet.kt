@@ -2,6 +2,7 @@ package com.pastelpro.ui.screens.recetas
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -87,36 +88,65 @@ fun AgregarIngredienteSheet(
                 color = MaterialTheme.colorScheme.surface,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                LazyColumn(
-                    modifier = Modifier.height(200.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    items(disponibles, key = { it.id }) { ing ->
-                        val activo = seleccionado?.id == ing.id
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    seleccionado = ing
-                                    if (unidadTxt.isBlank()) unidadTxt = ing.unidadCompra
-                                }
-                                .padding(horizontal = 12.dp, vertical = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                if (disponibles.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .padding(24.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = ing.nombre,
+                                text = stringResource(R.string.agregar_ingrediente_sin_ingredientes),
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = if (activo) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurface,
-                                fontWeight = if (activo) FontWeight.SemiBold else FontWeight.Normal,
-                                modifier = Modifier.weight(1f)
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = FontWeight.SemiBold,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
                             )
+                            Spacer(Modifier.height(8.dp))
                             Text(
-                                text = ing.categoria,
+                                text = stringResource(R.string.agregar_ingrediente_sin_ingredientes_detalle),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
                             )
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.height(200.dp),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        items(disponibles, key = { it.id }) { ing ->
+                            val activo = seleccionado?.id == ing.id
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        seleccionado = ing
+                                        if (unidadTxt.isBlank()) unidadTxt = ing.unidadCompra
+                                    }
+                                    .padding(horizontal = 12.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = ing.nombre,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = if (activo) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.onSurface,
+                                    fontWeight = if (activo) FontWeight.SemiBold else FontWeight.Normal,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                Text(
+                                    text = ing.categoria,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }

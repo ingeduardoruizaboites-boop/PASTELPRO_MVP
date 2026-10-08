@@ -88,4 +88,7 @@
     <string name="agregar_ingrediente_titulo">Adicionar ingrediente</string>
     <string name="agregar_ingrediente_selecciona">Escolha um ingrediente da sua lista</string>
     <string name="accion_agregar">Adicionar</string>
+
+    <string name="agregar_ingrediente_sin_ingredientes">Sem ingredientes</string>
+    <string name="agregar_ingrediente_sin_ingredientes_detalle">Vá à seção Ingredientes e adicione pelo menos um para usá-lo em suas receitas.</string>
 </resources>
