@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Button
@@ -51,7 +52,8 @@ import com.pastelpro.domain.model.Receta
 @Composable
 fun RecetaDetalleScreen(
     recetaId: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onVerCostoPrecio: () -> Unit = {}
 ) {
     val vm: RecetaDetalleViewModel = viewModel(
         factory = RecetaDetalleViewModel.factory(recetaId),
@@ -112,7 +114,8 @@ fun RecetaDetalleScreen(
                         receta = s.receta,
                         onEliminar = vm::eliminarIngrediente,
                         onAgregarClick = { mostrarAgregar = true },
-                        onEscalarClick = { mostrarEscalar = true }
+                        onEscalarClick = { mostrarEscalar = true },
+                        onVerCostoPrecio = onVerCostoPrecio
                     )
                 }
             }
@@ -144,7 +147,8 @@ private fun ContenidoReceta(
     receta: Receta,
     onEliminar: (String) -> Unit,
     onAgregarClick: () -> Unit,
-    onEscalarClick: () -> Unit
+    onEscalarClick: () -> Unit,
+    onVerCostoPrecio: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
@@ -234,6 +238,25 @@ private fun ContenidoReceta(
                 Spacer(Modifier.padding(horizontal = 4.dp))
                 Text(
                     text = stringResource(R.string.receta_escalar),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            Button(
+                onClick = onVerCostoPrecio,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
+                ),
+                enabled = receta.ingredientes.isNotEmpty()
+            ) {
+                Icon(Icons.Filled.AttachMoney, contentDescription = null)
+                Spacer(Modifier.padding(horizontal = 4.dp))
+                Text(
+                    text = stringResource(R.string.receta_ver_costo),
                     fontWeight = FontWeight.SemiBold
                 )
             }

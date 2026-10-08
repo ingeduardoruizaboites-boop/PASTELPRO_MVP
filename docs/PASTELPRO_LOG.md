@@ -451,3 +451,54 @@ Bloque 5: costo real de receta + 3 precios sugeridos (mínimo/recomendado/premiu
 - Wizard "Nuevo pastel" (Bloque 5).
 - Tests de migración con MigrationTestHelper (Bloque 6).
 - Transiciones entre pantallas (Bloque 6).
+
+---
+
+## ENTRADA — 2026-10-07 · Sesión 4 · Bloque 5A cerrado (costo + precio)
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Conectar motor de costo y precios a UI. Cerrar ciclo de valor.
+
+### QUÉ SE HIZO
+- `CalculadoraCostoReceta` con desglose + merma + precios (12 tests).
+- `CostoPrecioScreen` con 3 tarjetas de precio (mínimo/recomendado/premium).
+- Fallback de match por nombre para recetas con IDs huérfanos.
+- `DiagnosticLogger` para debug en dispositivo sin ADB (escribe a Download/).
+- Crash handler global que captura stacktrace completo.
+- Fix crash: `%` no escapado en string ES.
+- Formatters defensivos con `setScale(2)` antes de `format()`.
+
+### ARCHIVOS
+- `engine/CalculadoraCostoReceta.kt` + tests
+- `diagnostico/DiagnosticLogger.kt`
+- `ui/screens/recetas/CostoPrecioScreen.kt`
+- `ui/screens/recetas/CostoPrecioViewModel.kt`
+- `MainActivity.kt` (init logger)
+- `res/xml/file_paths.xml` + provider en Manifest
+
+### COMANDOS
+- `./gradlew test` → 96 tests, 0 fallos
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL
+- Probado en Xiaomi Redmi Note 9S · scroll completo sin crash
+
+### DISPOSITIVO
+- Receta "pastel de naranja" (50 porciones):
+  - Costo $239.40
+  - Precio recomendado $399.00 (margen 40%, ganancia $159.60)
+
+### ¿ERA FIX?
+Sí — 2 bugs resueltos:
+1. `UnknownFormatConversionException` por `%` no escapado en strings.xml
+2. ViewModel no reactivo (leía inventario antes de que Room emitiera)
+
+### HIPÓTESIS DESCARTADAS
+- "El crash era por LazyColumn keys duplicados" → FALSO, era el string resource.
+- "NumberFormat crashea con BigDecimal" → FALSO en este caso.
+
+### SUGERENCIA
+Bloque 5B: mano de obra + energía + merma configurable.
+
+### DEUDA TÉCNICA
+[IMPORTANTE] Leche guardada como "kg" en inventario pero usada como "l" en receta.
+   El motor no convierte entre categorías (correcto). Mensaje claro al usuario.
+   Deuda UX: permitir editar unidad de compra de un ingrediente existente.

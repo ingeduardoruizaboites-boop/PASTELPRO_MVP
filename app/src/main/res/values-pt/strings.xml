@@ -110,4 +110,21 @@
     <string name="escalar_resultado_titulo">Ingredientes escalados</string>
     <string name="escalar_factor">Fator: ×%1$s</string>
     <string name="accion_cerrar">Fechar</string>
+
+    <string name="receta_ver_costo">Ver custo e preço</string>
+    <string name="costo_precio_titulo">Custo e preço</string>
+    <string name="costo_precio_costo_total">Custo real total</string>
+    <string name="costo_precio_costo_porcion">%1$s por porção · %2$d porções</string>
+    <string name="costo_precio_precios_titulo">Preços sugeridos</string>
+    <string name="costo_precio_minimo">Mínimo</string>
+    <string name="costo_precio_recomendado">Recomendado</string>
+    <string name="costo_precio_premium">Premium</string>
+    <string name="costo_precio_ganancia">Lucro: %1$s</string>
+    <string name="costo_precio_margen">Margem: %1$s</string>
+    <string name="costo_precio_desglose_titulo">Detalhe dos ingredientes</string>
+    <string name="costo_precio_subtotal">Subtotal ingredientes</string>
+    <string name="costo_precio_merma">Perda (%1$s%%)</string>
+    <string name="costo_precio_total">Custo total</string>
+    <string name="costo_precio_faltantes">%1$d ingrediente(s) sem custo:</string>
+    <string name="costo_precio_no_encontrado">Não encontrado</string>
 </resources>

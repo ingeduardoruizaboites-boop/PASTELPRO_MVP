@@ -28,6 +28,7 @@ import com.pastelpro.ui.screens.ShoppingScreen
 import com.pastelpro.ui.screens.SplashScreen
 import com.pastelpro.ui.screens.WelcomeScreen
 import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
+import com.pastelpro.ui.screens.recetas.CostoPrecioScreen
 import com.pastelpro.ui.screens.recetas.RecetaDetalleScreen
 import com.pastelpro.ui.screens.recetas.RecetasScreen
 import com.pastelpro.ui.theme.Berry
@@ -87,6 +88,18 @@ fun PastelProApp() {
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString(Routes.RECETA_DETALLE_ARG).orEmpty()
             RecetaDetalleScreen(
+                recetaId = id,
+                onBack = { navController.popBackStack() },
+                onVerCostoPrecio = { navController.navigate(Routes.costoPrecio(id)) }
+            )
+        }
+
+        composable(
+            route = Routes.COSTO_PRECIO,
+            arguments = listOf(navArgument(Routes.RECETA_DETALLE_ARG) { type = NavType.StringType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString(Routes.RECETA_DETALLE_ARG).orEmpty()
+            CostoPrecioScreen(
                 recetaId = id,
                 onBack = { navController.popBackStack() }
             )

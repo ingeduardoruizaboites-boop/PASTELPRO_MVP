@@ -25,6 +25,11 @@ object Routes {
     const val RECETA_DETALLE_ARG = "id"
     const val RECETA_DETALLE = "$RECETA_DETALLE_BASE/{$RECETA_DETALLE_ARG}"
     fun recetaDetalle(id: String) = "$RECETA_DETALLE_BASE/$id"
+
+    // Ruta: /receta/{id}/costo-precio
+    const val COSTO_PRECIO_BASE = "costo-precio"
+    const val COSTO_PRECIO = "$RECETA_DETALLE/$COSTO_PRECIO_BASE"
+    fun costoPrecio(id: String) = "$RECETA_DETALLE_BASE/$id/$COSTO_PRECIO_BASE"
 }
 
 data class BottomNavItem(

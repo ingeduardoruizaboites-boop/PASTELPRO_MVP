@@ -66,15 +66,21 @@ object CalculadoraCostoReceta {
             throw CostoRecetaInvalido("El porcentaje de merma debe estar entre 0 y <100: $mermaPorcentaje")
         }
 
-        // Indexar inventario por id para búsqueda O(1)
+        // Indexar inventario por id Y por nombre normalizado para robustez.
+        // Motivo: cuando se desinstala/reinstala la app, los ingredientes reciben nuevos UUIDs
+        // pero las recetas guardadas apuntan a los IDs viejos. El fallback por nombre permite
+        // que las recetas sigan funcionando.
         val porId = inventario.associateBy { it.id }
+        val porNombre = inventario.associateBy { it.nombre.trim().lowercase() }
 
         val desglose = mutableListOf<CostoIngrediente>()
         val faltantes = mutableListOf<String>()
         var subtotal = BigDecimal.ZERO
 
         receta.ingredientes.forEach { item ->
+            // 1) Buscar por id; 2) fallback por nombre (case-insensitive)
             val inventarioItem = porId[item.ingredienteId]
+                ?: porNombre[item.nombre.trim().lowercase()]
 
             if (inventarioItem == null) {
                 // Ingrediente no encontrado en inventario
@@ -95,11 +101,13 @@ object CalculadoraCostoReceta {
                         unidadUsada = item.unidad
                     )
                 } catch (e: MotorUnidades.ConversionInvalida) {
-                    // Unidad incompatible: reportar como faltante
-                    faltantes += "${item.nombre} (unidad incompatible)"
+                    // Unidad incompatible: incluir unidades esperadas vs encontradas
+                    val unidadReceta = item.unidad
+                    val unidadInv = inventarioItem.unidadCompra
+                    faltantes += "${item.nombre} · receta: $unidadReceta · inventario: $unidadInv (revisa las unidades)"
                     BigDecimal.ZERO
                 } catch (e: MotorCostoIngrediente.CostoInvalido) {
-                    faltantes += "${item.nombre} (datos inválidos)"
+                    faltantes += "${item.nombre} (datos incompletos)"
                     BigDecimal.ZERO
                 }
 
