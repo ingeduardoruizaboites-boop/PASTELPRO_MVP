@@ -1,0 +1,162 @@
+package com.pastelpro.engine
+
+import com.pastelpro.domain.model.Ingrediente
+import com.pastelpro.domain.model.IngredienteDeReceta
+import com.pastelpro.domain.model.Receta
+import java.math.BigDecimal
+import java.math.RoundingMode
+
+/**
+ * Calculadora de costo completo de una receta.
+ *
+ * Aplica en orden:
+ *   1. Costo de cada ingrediente (usa MotorCostoIngrediente).
+ *   2. Suma de ingredientes.
+ *   3. Merma sobre el subtotal.
+ *   4. Costo total y costo por porción.
+ *
+ * NO incluye mano de obra ni energía todavía — esos vienen cuando exista
+ * pantalla de configuración. El diseño soporta añadirlos sin refactor.
+ *
+ * Reglas (§64, §31, §35 del Maestro):
+ * - BigDecimal, escala final 2.
+ * - Ingredientes no encontrados en inventario se reportan aparte (no se suman al costo).
+ * - Receta sin rendimiento válido → costo por porción = 0.
+ */
+object CalculadoraCostoReceta {
+
+    class CostoRecetaInvalido(mensaje: String) : IllegalArgumentException(mensaje)
+
+    private const val PRECISION_INTERNA = 6
+    private const val PRECISION_FINAL = 2
+
+    data class CostoIngrediente(
+        val ingredienteId: String,
+        val nombre: String,
+        val cantidad: BigDecimal,
+        val unidad: String,
+        val costo: BigDecimal,
+        val encontrado: Boolean
+    )
+
+    data class Resultado(
+        val costoIngredientes: BigDecimal,
+        val mermaPorcentaje: BigDecimal,
+        val costoMerma: BigDecimal,
+        val costoTotal: BigDecimal,
+        val rendimientoCantidad: Int,
+        val costoPorPorcion: BigDecimal,
+        val desglose: List<CostoIngrediente>,
+        val faltantes: List<String>
+    )
+
+    /**
+     * Calcula el costo total de una receta.
+     *
+     * @param receta receta con sus ingredientes
+     * @param inventario lista de ingredientes del inventario (con sus precios)
+     * @param mermaPorcentaje porcentaje de merma a aplicar (default 5%)
+     */
+    fun calcular(
+        receta: Receta,
+        inventario: List<Ingrediente>,
+        mermaPorcentaje: BigDecimal = BigDecimal("5")
+    ): Resultado {
+        if (mermaPorcentaje < BigDecimal.ZERO || mermaPorcentaje >= BigDecimal(100)) {
+            throw CostoRecetaInvalido("El porcentaje de merma debe estar entre 0 y <100: $mermaPorcentaje")
+        }
+
+        // Indexar inventario por id para búsqueda O(1)
+        val porId = inventario.associateBy { it.id }
+
+        val desglose = mutableListOf<CostoIngrediente>()
+        val faltantes = mutableListOf<String>()
+        var subtotal = BigDecimal.ZERO
+
+        receta.ingredientes.forEach { item ->
+            val inventarioItem = porId[item.ingredienteId]
+
+            if (inventarioItem == null) {
+                // Ingrediente no encontrado en inventario
+                faltantes += item.nombre
+                desglose += CostoIngrediente(
+                    ingredienteId = item.ingredienteId,
+                    nombre = item.nombre,
+                    cantidad = item.cantidad,
+                    unidad = item.unidad,
+                    costo = BigDecimal.ZERO,
+                    encontrado = false
+                )
+            } else {
+                val costo = try {
+                    MotorCostoIngrediente.calcular(
+                        ingrediente = inventarioItem,
+                        cantidadUsada = item.cantidad,
+                        unidadUsada = item.unidad
+                    )
+                } catch (e: MotorUnidades.ConversionInvalida) {
+                    // Unidad incompatible: reportar como faltante
+                    faltantes += "${item.nombre} (unidad incompatible)"
+                    BigDecimal.ZERO
+                } catch (e: MotorCostoIngrediente.CostoInvalido) {
+                    faltantes += "${item.nombre} (datos inválidos)"
+                    BigDecimal.ZERO
+                }
+
+                subtotal = subtotal.add(costo)
+
+                desglose += CostoIngrediente(
+                    ingredienteId = item.ingredienteId,
+                    nombre = item.nombre,
+                    cantidad = item.cantidad,
+                    unidad = item.unidad,
+                    costo = costo,
+                    encontrado = true
+                )
+            }
+        }
+
+        // Aplicar merma sobre el subtotal de ingredientes
+        val resultadoMerma = MotorMerma.aplicar(subtotal, mermaPorcentaje)
+
+        // Costo por porción
+        val costoPorPorcion = if (receta.rendimientoCantidad > 0) {
+            resultadoMerma.costoTotal.divide(
+                BigDecimal(receta.rendimientoCantidad),
+                PRECISION_FINAL,
+                RoundingMode.HALF_UP
+            )
+        } else {
+            BigDecimal.ZERO
+        }
+
+        return Resultado(
+            costoIngredientes = resultadoMerma.costoAntes,
+            mermaPorcentaje = mermaPorcentaje,
+            costoMerma = resultadoMerma.costoMerma,
+            costoTotal = resultadoMerma.costoTotal,
+            rendimientoCantidad = receta.rendimientoCantidad,
+            costoPorPorcion = costoPorPorcion,
+            desglose = desglose,
+            faltantes = faltantes
+        )
+    }
+
+    /**
+     * Calcula los 3 precios sugeridos a partir de un resultado de costo.
+     * Reusa MotorPrecio. Devuelve mínimo/recomendado/premium con ganancia y margen.
+     */
+    fun calcularPrecios(
+        resultado: Resultado,
+        margenMinimo: BigDecimal = BigDecimal("20"),
+        margenRecomendado: BigDecimal = BigDecimal("40"),
+        margenPremium: BigDecimal = BigDecimal("60")
+    ): MotorPrecio.TresPrecios {
+        return MotorPrecio.calcularTresPrecios(
+            costo = resultado.costoTotal,
+            margenMinimo = margenMinimo,
+            margenRecomendado = margenRecomendado,
+            margenPremium = margenPremium
+        )
+    }
+}
