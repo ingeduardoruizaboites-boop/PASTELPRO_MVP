@@ -5,16 +5,22 @@ import java.util.UUID
 /**
  * Receta del dominio.
  *
- * El "rendimiento" es la cantidad que produce la receta base.
- * Ejemplo: "1 pastel de 20cm" o "8 porciones".
+ * El rendimiento se separa en cantidad + unidad para poder escalar correctamente:
+ *   rendimientoCantidad = 20
+ *   rendimientoUnidad = "porciones"
  *
- * El escalado (Bloque 4C) trabaja multiplicando esta base.
+ * El escalado (Bloque 4C) usa MotorEscalado.factorPorPersonas() con estos valores.
  */
 data class Receta(
     val id: String = UUID.randomUUID().toString(),
     val nombre: String,
-    val tipo: String,                       // "3 leches", "Chocolate", "Vainilla", etc.
-    val rendimiento: String,                // "8 porciones", "1 pastel 20cm"
+    val tipo: String,
+    val rendimientoCantidad: Int,
+    val rendimientoUnidad: String,
     val ingredientes: List<IngredienteDeReceta> = emptyList(),
     val notas: String? = null
-)
+) {
+    /** Texto humano listo para mostrar: "20 porciones" */
+    val rendimientoTexto: String
+        get() = "$rendimientoCantidad $rendimientoUnidad"
+}

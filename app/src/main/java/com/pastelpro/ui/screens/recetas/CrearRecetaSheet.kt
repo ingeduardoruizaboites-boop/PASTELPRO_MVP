@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.pastelpro.R
 import com.pastelpro.domain.model.Receta
@@ -38,9 +40,14 @@ fun CrearRecetaSheet(
 
     var nombre by remember { mutableStateOf("") }
     var tipo by remember { mutableStateOf("") }
-    var rendimiento by remember { mutableStateOf("") }
+    var rendimientoCantidadTxt by remember { mutableStateOf("") }
+    var rendimientoUnidad by remember { mutableStateOf("porciones") }
 
-    val puedeGuardar = nombre.isNotBlank() && tipo.isNotBlank() && rendimiento.isNotBlank()
+    val cantidadInt = rendimientoCantidadTxt.toIntOrNull()
+    val puedeGuardar = nombre.isNotBlank()
+            && tipo.isNotBlank()
+            && cantidadInt != null && cantidadInt > 0
+            && rendimientoUnidad.isNotBlank()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -81,12 +88,29 @@ fun CrearRecetaSheet(
 
             Spacer(Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = rendimiento,
-                onValueChange = { rendimiento = it },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.campo_rendimiento)) },
-                singleLine = true
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                OutlinedTextField(
+                    value = rendimientoCantidadTxt,
+                    onValueChange = { rendimientoCantidadTxt = it.filter { c -> c.isDigit() } },
+                    modifier = Modifier.weight(1f),
+                    label = { Text(stringResource(R.string.campo_cantidad)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = rendimientoUnidad,
+                    onValueChange = { rendimientoUnidad = it },
+                    modifier = Modifier.weight(1f),
+                    label = { Text(stringResource(R.string.campo_rendimiento_unidad)) },
+                    singleLine = true
+                )
+            }
+
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.recetas_rendimiento_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(Modifier.height(24.dp))
@@ -110,7 +134,8 @@ fun CrearRecetaSheet(
                             Receta(
                                 nombre = nombre.trim(),
                                 tipo = tipo.trim(),
-                                rendimiento = rendimiento.trim()
+                                rendimientoCantidad = cantidadInt ?: 0,
+                                rendimientoUnidad = rendimientoUnidad.trim()
                             )
                         )
                     },

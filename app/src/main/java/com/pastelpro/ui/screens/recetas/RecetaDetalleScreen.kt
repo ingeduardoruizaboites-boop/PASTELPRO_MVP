@@ -17,12 +17,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pastelpro.R
 import com.pastelpro.domain.model.IngredienteDeReceta
+import com.pastelpro.domain.model.Receta
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +59,8 @@ fun RecetaDetalleScreen(
     )
     val state by vm.uiState.collectAsState()
     val disponibles by vm.ingredientesDisponibles.collectAsState()
-    var mostrarSheet by remember { mutableStateOf(false) }
+    var mostrarAgregar by remember { mutableStateOf(false) }
+    var mostrarEscalar by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -107,33 +111,42 @@ fun RecetaDetalleScreen(
                     ContenidoReceta(
                         receta = s.receta,
                         onEliminar = vm::eliminarIngrediente,
-                        onAgregarClick = { mostrarSheet = true }
+                        onAgregarClick = { mostrarAgregar = true },
+                        onEscalarClick = { mostrarEscalar = true }
                     )
                 }
             }
         }
     }
 
-    if (mostrarSheet) {
+    if (mostrarAgregar) {
         AgregarIngredienteSheet(
             disponibles = disponibles,
-            onDismiss = { mostrarSheet = false },
+            onDismiss = { mostrarAgregar = false },
             onAgregar = { ingrediente, cantidad, unidad ->
                 vm.agregarIngrediente(ingrediente, cantidad, unidad)
-                mostrarSheet = false
+                mostrarAgregar = false
             }
+        )
+    }
+
+    val recetaActual = (state as? RecetaDetalleUiState.ConDatos)?.receta
+    if (mostrarEscalar && recetaActual != null) {
+        EscalarRecetaSheet(
+            receta = recetaActual,
+            onDismiss = { mostrarEscalar = false }
         )
     }
 }
 
 @Composable
 private fun ContenidoReceta(
-    receta: com.pastelpro.domain.model.Receta,
+    receta: Receta,
     onEliminar: (String) -> Unit,
-    onAgregarClick: () -> Unit
+    onAgregarClick: () -> Unit,
+    onEscalarClick: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        // Header
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
             Text(
                 text = receta.tipo,
@@ -141,7 +154,7 @@ private fun ContenidoReceta(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = receta.rendimiento,
+                text = receta.rendimientoTexto,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
@@ -185,25 +198,45 @@ private fun ContenidoReceta(
             }
         }
 
-        // Botón inferior
-        Button(
-            onClick = onAgregarClick,
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 16.dp)
-                .height(52.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            )
+                .padding(horizontal = 24.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(Icons.Filled.Add, contentDescription = null)
-            Spacer(Modifier.padding(horizontal = 4.dp))
-            Text(
-                text = stringResource(R.string.receta_agregar_ingrediente),
-                fontWeight = FontWeight.SemiBold
-            )
+            OutlinedButton(
+                onClick = onAgregarClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Icon(Icons.Filled.Add, contentDescription = null)
+                Spacer(Modifier.padding(horizontal = 4.dp))
+                Text(
+                    text = stringResource(R.string.receta_agregar_ingrediente),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            Button(
+                onClick = onEscalarClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                enabled = receta.ingredientes.isNotEmpty()
+            ) {
+                Icon(Icons.Filled.TrendingUp, contentDescription = null)
+                Spacer(Modifier.padding(horizontal = 4.dp))
+                Text(
+                    text = stringResource(R.string.receta_escalar),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
         }
     }
 }

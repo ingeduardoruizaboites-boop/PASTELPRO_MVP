@@ -15,7 +15,8 @@ object RecetaMapper {
         id = receta.id,
         nombre = receta.nombre,
         tipo = receta.tipo,
-        rendimiento = receta.rendimiento,
+        rendimientoCantidad = receta.rendimientoCantidad,
+        rendimientoUnidad = receta.rendimientoUnidad,
         ingredientes = ingredientes.map(::ingredienteADominio),
         notas = receta.notas
     )
@@ -24,7 +25,8 @@ object RecetaMapper {
         id = receta.id,
         nombre = receta.nombre,
         tipo = receta.tipo,
-        rendimiento = receta.rendimiento,
+        rendimientoCantidad = receta.rendimientoCantidad,
+        rendimientoUnidad = receta.rendimientoUnidad,
         notas = receta.notas
     )
 

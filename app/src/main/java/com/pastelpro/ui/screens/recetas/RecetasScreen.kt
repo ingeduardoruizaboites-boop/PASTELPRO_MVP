@@ -191,7 +191,7 @@ private fun RecetaCard(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = receta.rendimiento,
+                    text = receta.rendimientoTexto,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

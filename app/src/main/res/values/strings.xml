@@ -103,4 +103,18 @@
     <string name="home_acceso_ingredientes">Ingredientes</string>
     <string name="home_acceso_compras">Compras</string>
     <string name="home_acceso_moldes">Mis moldes</string>
+
+    <!-- Crear receta — rendimiento -->
+    <string name="campo_rendimiento_unidad">Unidad</string>
+    <string name="recetas_rendimiento_hint">Ejemplo: 20 porciones, 8 personas, 3 pasteles.</string>
+
+    <!-- Escalar -->
+    <string name="receta_escalar">Escalar receta</string>
+    <string name="escalar_titulo">Escalar receta</string>
+    <string name="escalar_base">Receta base: %1$s</string>
+    <string name="escalar_input_label">¿Para cuántas %1$s?</string>
+    <string name="escalar_rapidos">Cantidades rápidas</string>
+    <string name="escalar_resultado_titulo">Ingredientes escalados</string>
+    <string name="escalar_factor">Factor: ×%1$s</string>
+    <string name="accion_cerrar">Cerrar</string>
 </resources>

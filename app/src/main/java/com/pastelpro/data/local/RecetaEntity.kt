@@ -8,6 +8,7 @@ data class RecetaEntity(
     @PrimaryKey val id: String,
     val nombre: String,
     val tipo: String,
-    val rendimiento: String,
+    val rendimientoCantidad: Int,        // ej. 20
+    val rendimientoUnidad: String,        // ej. "porciones", "personas", "piezas"
     val notas: String?
 )

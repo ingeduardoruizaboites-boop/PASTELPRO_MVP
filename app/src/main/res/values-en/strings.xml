@@ -98,4 +98,16 @@
     <string name="home_acceso_ingredientes">Ingredients</string>
     <string name="home_acceso_compras">Shopping</string>
     <string name="home_acceso_moldes">My molds</string>
+
+    <string name="campo_rendimiento_unidad">Unit</string>
+    <string name="recetas_rendimiento_hint">Example: 20 servings, 8 people, 3 cakes.</string>
+
+    <string name="receta_escalar">Scale recipe</string>
+    <string name="escalar_titulo">Scale recipe</string>
+    <string name="escalar_base">Base recipe: %1$s</string>
+    <string name="escalar_input_label">For how many %1$s?</string>
+    <string name="escalar_rapidos">Quick amounts</string>
+    <string name="escalar_resultado_titulo">Scaled ingredients</string>
+    <string name="escalar_factor">Factor: ×%1$s</string>
+    <string name="accion_cerrar">Close</string>
 </resources>

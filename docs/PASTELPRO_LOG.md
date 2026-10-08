@@ -394,3 +394,60 @@ PASS
 
 ### SUGERENCIA
 En 4C: migración Room v2→v3 real (no destructiva).
+
+---
+
+## ENTRADA — 2026-10-07 · Sesión 4 · Bloque 4C cerrado (escalado)
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Migración Room v2→v3 + UI de escalado conectada al MotorEscalado.
+
+### QUÉ SE HIZO
+- Migración v2 → v3 con recreate pattern (SQLite < 3.35 no soporta DROP COLUMN).
+- `Receta`: `rendimiento: String` → `rendimientoCantidad: Int` + `rendimientoUnidad: String`.
+- `EscalarRecetaSheet` con input + chips rápidos (×2, ×3, ×10, 100).
+- `RecetaDetalleScreen`: botón "Escalar" (relleno) + "Agregar ingrediente" (outline).
+- `MotorEscalado` conectado: escalado + redondeo por tipo de unidad.
+- Fix migración (recreate pattern) tras primer intento fallido — Room crasheaba por columna fantasma.
+
+### ARCHIVOS
+- `data/local/PastelProDatabase.kt` (v3 + MIGRACION_2_3 recreate)
+- `data/local/RecetaEntity.kt`, `domain/model/Receta.kt`, `mapper/RecetaMapper.kt`
+- `ui/screens/recetas/{CrearRecetaSheet,RecetasScreen,RecetaDetalleScreen,EscalarRecetaSheet}.kt`
+- `res/values{,-en,-pt}/strings.xml` (+15 cadenas)
+
+### COMANDOS
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL
+- Migración validada en Xiaomi Redmi 9S · persistencia preservada
+
+### BUILD
+PASS · sin warnings
+
+### TESTS
+84 tests de motor siguen en verde.
+
+### DISPOSITIVO
+- Xiaomi Redmi 9S:
+  - 3 recetas persistieron tras migración v2→v3 ✅
+  - Escalado: 20 porciones → 200 porciones = factor ×10
+  - harina 1 kg → 10 kg ✅
+
+### RESULTADO REAL
+- Escalado funcional end-to-end.
+- Migración Room real (no destructiva) probada en dispositivo.
+- MotorEscalado integrado con la UI.
+
+### ¿ERA FIX?
+Sí — migración inicial falló (columna fantasma). Corregido con recreate pattern.
+
+### HIPÓTESIS DESCARTADAS
+- "SQLite moderno permite DROP COLUMN" → FALSO en Android 8-11.
+- "Room re-ejecuta migración si falla" → Room hace rollback limpio pero necesita fix de código.
+
+### SUGERENCIA
+Bloque 5: costo real de receta + 3 precios sugeridos (mínimo/recomendado/premium).
+
+### DEUDA/PENDIENTE
+- Wizard "Nuevo pastel" (Bloque 5).
+- Tests de migración con MigrationTestHelper (Bloque 6).
+- Transiciones entre pantallas (Bloque 6).
