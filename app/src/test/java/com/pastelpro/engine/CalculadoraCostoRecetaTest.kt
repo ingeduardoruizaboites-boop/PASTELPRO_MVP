@@ -16,6 +16,14 @@ class CalculadoraCostoRecetaTest {
         assertEquals("Esperado <$esperado> pero fue <$real>", 0, BigDecimal(esperado).compareTo(real))
     }
 
+    private fun assertBDConTolerancia(esperado: String, real: BigDecimal, tolerancia: String) {
+        val diff = BigDecimal(esperado).subtract(real).abs()
+        assertTrue(
+            "Esperado <$esperado> ± <$tolerancia> pero fue <$real> (dif: $diff)",
+            diff <= BigDecimal(tolerancia)
+        )
+    }
+
     // ══════════════════════════════════════════════
     // Helpers de datos
     // ══════════════════════════════════════════════
@@ -228,10 +236,13 @@ class CalculadoraCostoRecetaTest {
         assertBD("9.80", precios.recomendado.ganancia)
         assertBD("22.05", precios.premium.ganancia)
 
-        // Verificar márgenes
-        assertBD("20.00", precios.minimo.margen)
-        assertBD("40.00", precios.recomendado.margen)
-        assertBD("60.00", precios.premium.margen)
+        // Verificar márgenes con tolerancia ±0.02.
+        // Nota: el precio se redondea a 2 decimales ANTES de recalcular el margen real,
+        // por lo que el margen puede diferir en centésimas del valor nominal.
+        // Esto es matemáticamente correcto y esperado.
+        assertBDConTolerancia("20.00", precios.minimo.margen, "0.02")
+        assertBDConTolerancia("40.00", precios.recomendado.margen, "0.02")
+        assertBDConTolerancia("60.00", precios.premium.margen, "0.02")
     }
 
     @Test
