@@ -81,4 +81,16 @@
     <string name="recetas_vacio_detalle">Agrega tu primera receta para calcular costos de tus pasteles.</string>
     <string name="campo_tipo">Tipo de pastel</string>
     <string name="campo_rendimiento">Rendimiento</string>
+
+    <!-- Detalle de receta -->
+    <string name="receta_detalle_titulo">Receta</string>
+    <string name="receta_no_encontrada">Receta no encontrada</string>
+    <string name="receta_ingredientes_titulo">Ingredientes</string>
+    <string name="receta_sin_ingredientes">Aún no hay ingredientes en esta receta. Agrega el primero para empezar a costear.</string>
+    <string name="receta_agregar_ingrediente">Agregar ingrediente</string>
+
+    <!-- Agregar ingrediente -->
+    <string name="agregar_ingrediente_titulo">Agregar ingrediente</string>
+    <string name="agregar_ingrediente_selecciona">Selecciona un ingrediente de tu lista</string>
+    <string name="accion_agregar">Agregar</string>
 </resources>

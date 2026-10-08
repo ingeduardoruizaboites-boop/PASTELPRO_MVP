@@ -7,5 +7,6 @@ interface RecetaRepository {
     fun observarTodas(): Flow<List<Receta>>
     suspend fun obtener(id: String): Receta?
     suspend fun agregar(receta: Receta)
+    suspend fun actualizar(receta: Receta)
     suspend fun eliminar(id: String)
 }

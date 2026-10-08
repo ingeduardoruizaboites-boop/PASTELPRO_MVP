@@ -76,4 +76,16 @@
     <string name="recetas_vacio_detalle">Add your first recipe to start calculating your cake costs.</string>
     <string name="campo_tipo">Cake type</string>
     <string name="campo_rendimiento">Yield</string>
+
+    <!-- Recipe detail -->
+    <string name="receta_detalle_titulo">Recipe</string>
+    <string name="receta_no_encontrada">Recipe not found</string>
+    <string name="receta_ingredientes_titulo">Ingredients</string>
+    <string name="receta_sin_ingredientes">No ingredients yet. Add the first one to start costing.</string>
+    <string name="receta_agregar_ingrediente">Add ingredient</string>
+
+    <!-- Add ingredient -->
+    <string name="agregar_ingrediente_titulo">Add ingredient</string>
+    <string name="agregar_ingrediente_selecciona">Pick an ingredient from your list</string>
+    <string name="accion_agregar">Add</string>
 </resources>

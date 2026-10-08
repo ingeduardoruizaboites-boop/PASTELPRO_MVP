@@ -47,4 +47,16 @@ interface RecetaDao {
         eliminarIngredientesDe(id)
         eliminarReceta(id)
     }
+
+    @Transaction
+    suspend fun actualizarConIngredientes(
+        receta: RecetaEntity,
+        ingredientes: List<RecetaIngredienteEntity>
+    ) {
+        insertarReceta(receta)
+        eliminarIngredientesDe(receta.id)
+        if (ingredientes.isNotEmpty()) {
+            insertarIngredientes(ingredientes)
+        }
+    }
 }

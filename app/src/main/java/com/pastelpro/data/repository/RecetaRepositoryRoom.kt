@@ -31,6 +31,13 @@ class RecetaRepositoryRoom(
         )
     }
 
+    override suspend fun actualizar(receta: Receta) {
+        dao.actualizarConIngredientes(
+            RecetaMapper.aEntity(receta),
+            RecetaMapper.ingredientesAEntities(receta.id, receta.ingredientes)
+        )
+    }
+
     override suspend fun eliminar(id: String) {
         dao.eliminarCompleta(id)
     }

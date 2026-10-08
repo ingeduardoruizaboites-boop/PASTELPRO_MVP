@@ -76,4 +76,16 @@
     <string name="recetas_vacio_detalle">Adicione sua primeira receita para calcular os custos dos seus bolos.</string>
     <string name="campo_tipo">Tipo de bolo</string>
     <string name="campo_rendimiento">Rendimento</string>
+
+    <!-- Detalhe da receita -->
+    <string name="receta_detalle_titulo">Receita</string>
+    <string name="receta_no_encontrada">Receita não encontrada</string>
+    <string name="receta_ingredientes_titulo">Ingredientes</string>
+    <string name="receta_sin_ingredientes">Ainda sem ingredientes nesta receita. Adicione o primeiro para começar a custear.</string>
+    <string name="receta_agregar_ingrediente">Adicionar ingrediente</string>
+
+    <!-- Adicionar ingrediente -->
+    <string name="agregar_ingrediente_titulo">Adicionar ingrediente</string>
+    <string name="agregar_ingrediente_selecciona">Escolha um ingrediente da sua lista</string>
+    <string name="accion_agregar">Adicionar</string>
 </resources>

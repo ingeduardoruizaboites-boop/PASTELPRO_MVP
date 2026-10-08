@@ -12,21 +12,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.pastelpro.ui.navigation.Routes
 import com.pastelpro.ui.navigation.bottomNavItems
 import com.pastelpro.ui.screens.HomeScreen
-import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
 import com.pastelpro.ui.screens.MoreScreen
 import com.pastelpro.ui.screens.OrdersScreen
-import com.pastelpro.ui.screens.recetas.RecetasScreen
 import com.pastelpro.ui.screens.SetupScreen
 import com.pastelpro.ui.screens.ShoppingScreen
 import com.pastelpro.ui.screens.SplashScreen
 import com.pastelpro.ui.screens.WelcomeScreen
+import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
+import com.pastelpro.ui.screens.recetas.RecetaDetalleScreen
+import com.pastelpro.ui.screens.recetas.RecetasScreen
 import com.pastelpro.ui.theme.Berry
 import com.pastelpro.ui.theme.Cocoa
 import com.pastelpro.ui.theme.Cream
@@ -68,19 +71,34 @@ fun PastelProApp() {
         }
 
         composable(Routes.MAIN) {
-            MainScaffold(onIrIngredientes = {
-                navController.navigate(Routes.INGREDIENTES)
-            })
+            MainScaffold(
+                onIrIngredientes = { navController.navigate(Routes.INGREDIENTES) },
+                onIrRecetaDetalle = { id -> navController.navigate(Routes.recetaDetalle(id)) }
+            )
         }
 
         composable(Routes.INGREDIENTES) {
             IngredientesScreen(onBack = { navController.popBackStack() })
         }
+
+        composable(
+            route = Routes.RECETA_DETALLE,
+            arguments = listOf(navArgument(Routes.RECETA_DETALLE_ARG) { type = NavType.StringType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString(Routes.RECETA_DETALLE_ARG).orEmpty()
+            RecetaDetalleScreen(
+                recetaId = id,
+                onBack = { navController.popBackStack() }
+            )
+        }
     }
 }
 
 @Composable
-private fun MainScaffold(onIrIngredientes: () -> Unit) {
+private fun MainScaffold(
+    onIrIngredientes: () -> Unit,
+    onIrRecetaDetalle: (String) -> Unit
+) {
     val innerNav = rememberNavController()
     val backStack by innerNav.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route ?: Routes.HOME
@@ -129,7 +147,9 @@ private fun MainScaffold(onIrIngredientes: () -> Unit) {
             modifier = Modifier.padding(padding)
         ) {
             composable(Routes.HOME) { HomeScreen(onNuevoPastel = onIrIngredientes) }
-            composable(Routes.RECIPES) { RecetasScreen() }
+            composable(Routes.RECIPES) {
+                RecetasScreen(onRecetaClick = onIrRecetaDetalle)
+            }
             composable(Routes.ORDERS) { OrdersScreen() }
             composable(Routes.SHOPPING) { ShoppingScreen() }
             composable(Routes.MORE) { MoreScreen() }

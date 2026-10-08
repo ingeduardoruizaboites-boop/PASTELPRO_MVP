@@ -19,6 +19,12 @@ object Routes {
     const val SHOPPING = "shopping"
     const val MORE = "more"
     const val INGREDIENTES = "ingredientes"
+
+    // Ruta con argumento: /receta/{id}
+    const val RECETA_DETALLE_BASE = "receta"
+    const val RECETA_DETALLE_ARG = "id"
+    const val RECETA_DETALLE = "$RECETA_DETALLE_BASE/{$RECETA_DETALLE_ARG}"
+    fun recetaDetalle(id: String) = "$RECETA_DETALLE_BASE/$id"
 }
 
 data class BottomNavItem(

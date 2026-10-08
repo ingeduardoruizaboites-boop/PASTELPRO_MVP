@@ -1,5 +1,6 @@
 package com.pastelpro.ui.screens.recetas
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import com.pastelpro.domain.model.Receta
 
 @Composable
 fun RecetasScreen(
+    onRecetaClick: (String) -> Unit = {},
     viewModel: RecetasViewModel = viewModel(factory = RecetasViewModel.Factory)
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -103,6 +105,7 @@ fun RecetasScreen(
                         items(s.recetas, key = { it.id }) { receta ->
                             RecetaCard(
                                 receta = receta,
+                                onClick = { onRecetaClick(receta.id) },
                                 onEliminar = { viewModel.eliminar(receta.id) }
                             )
                         }
@@ -156,9 +159,15 @@ private fun EmptyRecetas() {
 }
 
 @Composable
-private fun RecetaCard(receta: Receta, onEliminar: () -> Unit) {
+private fun RecetaCard(
+    receta: Receta,
+    onClick: () -> Unit,
+    onEliminar: () -> Unit
+) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surface,
         shadowElevation = 1.dp
