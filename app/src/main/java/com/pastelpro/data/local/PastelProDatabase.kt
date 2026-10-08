@@ -11,40 +11,26 @@ import androidx.sqlite.db.SupportSQLiteDatabase
     entities = [
         IngredienteEntity::class,
         RecetaEntity::class,
-        RecetaIngredienteEntity::class
+        RecetaIngredienteEntity::class,
+        PedidoEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class PastelProDatabase : RoomDatabase() {
 
     abstract fun ingredienteDao(): IngredienteDao
     abstract fun recetaDao(): RecetaDao
+    abstract fun pedidoDao(): PedidoDao
 
     companion object {
         private const val NOMBRE = "pastelpro.db"
 
         @Volatile private var INSTANCIA: PastelProDatabase? = null
 
-        /**
-         * Migración v2 → v3 con recreate pattern.
-         *
-         * Motivo: SQLite < 3.35 no soporta DROP COLUMN.
-         * El schema viejo tiene `rendimiento: String`.
-         * El nuevo reemplaza esa columna por `rendimientoCantidad: Int` + `rendimientoUnidad: String`.
-         *
-         * Pasos:
-         *   1. Crear tabla nueva con schema correcto.
-         *   2. Copiar datos parseando el string viejo.
-         *   3. Borrar tabla vieja.
-         *   4. Renombrar nueva.
-         *
-         * FKs: receta_ingredientes apunta a recetas(id). Al recrear la tabla, los IDs se conservan,
-         * por lo que la FK sigue válida. Room ejecuta la migración en una transacción.
-         */
+        /** Migración v2 → v3: recreate de recetas (ver sesión 4). */
         private val MIGRACION_2_3 = object : Migration(2, 3) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                // 1. Crear tabla nueva
                 db.execSQL("""
                     CREATE TABLE IF NOT EXISTS recetas_new (
                         id TEXT NOT NULL PRIMARY KEY,
@@ -55,49 +41,43 @@ abstract class PastelProDatabase : RoomDatabase() {
                         notas TEXT
                     )
                 """)
-
-                // 2. Copiar datos con parseo del string viejo
-                //    "20"           → cantidad=20, unidad="porciones"
-                //    "20 porciones" → cantidad=20, unidad="porciones"
-                //    "8 personas"   → cantidad=8,  unidad="personas"
-                //    "" o null      → cantidad=0,  unidad="porciones"
                 db.execSQL("""
                     INSERT INTO recetas_new (id, nombre, tipo, rendimientoCantidad, rendimientoUnidad, notas)
                     SELECT
-                        id,
-                        nombre,
-                        tipo,
-                        COALESCE(
-                            CAST(
-                                REPLACE(
-                                    REPLACE(
-                                        SUBSTR(
-                                            rendimiento,
-                                            1,
-                                            INSTR(rendimiento || ' ', ' ') - 1
-                                        ),
-                                        ',', '.'
-                                    ),
-                                    ' ', ''
-                                ) AS INTEGER
-                            ),
-                            0
-                        ),
+                        id, nombre, tipo,
+                        COALESCE(CAST(REPLACE(REPLACE(SUBSTR(rendimiento, 1, INSTR(rendimiento || ' ', ' ') - 1), ',', '.'), ' ', '') AS INTEGER), 0),
                         CASE
                             WHEN rendimiento IS NULL OR TRIM(rendimiento) = '' THEN 'porciones'
-                            WHEN INSTR(rendimiento, ' ') > 0
-                                THEN TRIM(SUBSTR(rendimiento, INSTR(rendimiento, ' ') + 1))
+                            WHEN INSTR(rendimiento, ' ') > 0 THEN TRIM(SUBSTR(rendimiento, INSTR(rendimiento, ' ') + 1))
                             ELSE 'porciones'
                         END,
                         notas
                     FROM recetas
                 """)
-
-                // 3. Borrar tabla vieja
                 db.execSQL("DROP TABLE recetas")
-
-                // 4. Renombrar nueva
                 db.execSQL("ALTER TABLE recetas_new RENAME TO recetas")
+            }
+        }
+
+        /** Migración v3 → v4: añade tabla pedidos. Puramente aditiva. */
+        private val MIGRACION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS pedidos (
+                        id TEXT NOT NULL PRIMARY KEY,
+                        recetaId TEXT NOT NULL,
+                        recetaNombre TEXT NOT NULL,
+                        cliente TEXT,
+                        porciones INTEGER NOT NULL,
+                        costoTotal TEXT NOT NULL,
+                        precioAcordado TEXT NOT NULL,
+                        fechaEntrega TEXT,
+                        notas TEXT,
+                        estado TEXT NOT NULL,
+                        creadoEn INTEGER NOT NULL
+                    )
+                """)
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_pedidos_recetaId ON pedidos(recetaId)")
             }
         }
 
@@ -108,7 +88,7 @@ abstract class PastelProDatabase : RoomDatabase() {
                     PastelProDatabase::class.java,
                     NOMBRE
                 )
-                .addMigrations(MIGRACION_2_3)
+                .addMigrations(MIGRACION_2_3, MIGRACION_3_4)
                 .build()
                 .also { INSTANCIA = it }
             }
