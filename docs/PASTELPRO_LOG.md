@@ -352,3 +352,45 @@ Crear test de integración con 3 pasteles reales (§77 del Maestro).
 - Validación con datos reales de Eduardo + esposa.
 - Bloque 4: UI de Recetas que consuma el motor.
 - Bloque 5: UI de costo + precio con los 3 precios sugeridos.
+
+---
+
+## ENTRADA — 2026-10-07 · Sesión 4 · Bloque 4B cerrado + UX Home
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Cerrar ingredientes de receta, arreglar UX del Home, preparar escalado.
+
+### QUÉ SE HIZO
+- Bloque 4B: ingredientes de receta con Room + Bottom Sheet selector.
+- Empty state cuando no hay ingredientes.
+- Fix UX: Home rediseñado con accesos rápidos (Maestro §13).
+- Icono adaptativo con safe zone correcta (logo al 80%).
+
+### ARCHIVOS
+- `ui/screens/HomeScreen.kt` (nuevo, rediseñado)
+- `ui/screens/recetas/{AgregarIngredienteSheet,RecetaDetalleScreen,RecetaDetalleViewModel}.kt`
+- `data/local/{RecetaEntity,RecetaIngredienteEntity,RecetaDao}.kt`
+- `data/local/mapper/RecetaMapper.kt`
+- `res/mipmap-*/ic_launcher*` (iconos adaptativos + legacy)
+
+### COMANDOS
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL
+- `git tag v0.4.2-ingredientes-receta` pusheado
+
+### BUILD
+PASS
+
+### TESTS
+84 tests motor (siguen en verde).
+
+### DISPOSITIVO
+- Xiaomi Redmi 9S: persistencia de ingredientes de receta confirmada tras cerrar/reabrir.
+- Icono en launcher correcto.
+
+### RESULTADO REAL
+- 4B funciona end-to-end.
+- UX Home arreglada.
+- Listo para 4C (escalado).
+
+### SUGERENCIA
+En 4C: migración Room v2→v3 real (no destructiva).
