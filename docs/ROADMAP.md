@@ -49,3 +49,33 @@ Orden: estructura → navegación → datos → cálculos → UI → pruebas →
 - **V1.1:** Historial de precios de ingredientes + alerta "Este insumo subió X%".
 - **V2:** Referencias de mercado + comparador de precios propios.
 - **V2:** Al cotizar, verificar automáticamente si algún ingrediente no tiene precio actualizado en los últimos N días.
+
+---
+
+## 📌 BACKLOG — Solicitudes de Eduardo (2026-10-08)
+
+### V1.1 — Expansión de modelo de datos
+- [ ] `Ingrediente`: añadir `marca` (String?) y `lugarCompra` (String?)
+- [ ] `Receta`: añadir `molde` (String?) y `notasPreparacion` (String?)
+- [ ] `Pedido`: añadir `paraPersonas` (Int?) explícito (distinto de porciones)
+- [ ] Migración Room aditiva
+
+### V1.1 — Exportación y compartir (funciones PRO)
+- [ ] Exportar **lista de compras** a PDF con logo de la app
+- [ ] PDF de **producción**: ingredientes, cantidades, costo total, molde, porciones, tiempo estimado
+- [ ] PDF de **cotización cliente** (sin desglose de costos, solo precio)
+- [ ] Compartir por WhatsApp / correo / Drive
+
+### V1.2 — Módulo Moldes
+- [ ] "Mis moldes" con dimensiones, forma, volumen
+- [ ] Cálculo de volumen de mezcla recomendado
+- [ ] Validación pastel → molde (¿cabe?)
+
+### V2 — Adaptabilidad
+- [ ] Layout adaptativo para **tablets** (WindowSizeClass)
+- [ ] Layout de dos columnas en landscape
+- [ ] Captura optimizada para pantallas grandes
+
+### V2 — Historial de precios
+- [ ] Detección de cambios de precio en ingredientes
+- [ ] Alerta "Este insumo subió X% desde tu última cotización"
