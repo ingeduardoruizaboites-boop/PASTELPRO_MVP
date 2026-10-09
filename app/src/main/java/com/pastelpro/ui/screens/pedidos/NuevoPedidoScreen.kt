@@ -62,7 +62,8 @@ fun NuevoPedidoScreen(
     onBack: () -> Unit,
     onGuardado: () -> Unit
 ) {
-    val vm: NuevoPedidoViewModel = viewModel(factory = NuevoPedidoViewModel.Factory)
+    val app = androidx.compose.ui.platform.LocalContext.current.applicationContext as android.app.Application
+    val vm: NuevoPedidoViewModel = viewModel(factory = NuevoPedidoViewModel.factory(app))
     val recetas by vm.recetas.collectAsState()
     val resultado by vm.resultado.collectAsState()
     val precios by vm.precios.collectAsState()

@@ -20,6 +20,7 @@ sealed interface PedidosUiState {
 }
 
 class PedidosViewModel(
+    private val application: android.app.Application,
     private val repository: PedidoRepository
 ) : ViewModel() {
 
@@ -40,14 +41,20 @@ class PedidosViewModel(
     }
 
     fun cambiarEstado(id: String, nuevoEstado: EstadoPedido) {
-        viewModelScope.launch { repository.cambiarEstado(id, nuevoEstado) }
+        viewModelScope.launch {
+            repository.cambiarEstado(id, nuevoEstado)
+            // Si pasa a ENTREGADO, cancelar recordatorios
+            if (nuevoEstado == EstadoPedido.ENTREGADO) {
+                com.pastelpro.notificaciones.NotificacionScheduler.cancelarRecordatorios(application, id)
+            }
+        }
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        fun factory(application: android.app.Application): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return PedidosViewModel(RepositorioProvider.pedidoRepository) as T
+                return PedidosViewModel(application, RepositorioProvider.pedidoRepository) as T
             }
         }
     }

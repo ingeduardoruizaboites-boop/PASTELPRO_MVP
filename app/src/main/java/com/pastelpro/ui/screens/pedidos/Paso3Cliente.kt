@@ -157,8 +157,25 @@ fun Paso3Cliente(vm: NuevoPedidoViewModel) {
 
     // DatePickerDialog
     if (mostrarDatePicker) {
+        val hoyInicioDia = java.util.Calendar.getInstance().apply {
+            set(java.util.Calendar.HOUR_OF_DAY, 0)
+            set(java.util.Calendar.MINUTE, 0)
+            set(java.util.Calendar.SECOND, 0)
+            set(java.util.Calendar.MILLISECOND, 0)
+        }.timeInMillis
+
         val estadoFecha = rememberDatePickerState(
-            initialSelectedDateMillis = vm.fechaEntregaIso?.let { isoAIso -> isoAMillis(isoAIso) } ?: System.currentTimeMillis()
+            initialSelectedDateMillis = vm.fechaEntregaIso?.let { iso -> isoAMillis(iso) }
+                ?: System.currentTimeMillis(),
+            selectableDates = object : androidx.compose.material3.SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                    // No permitir fechas anteriores a hoy
+                    return utcTimeMillis >= hoyInicioDia
+                }
+                override fun isSelectableYear(year: Int): Boolean {
+                    return year >= java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
+                }
+            }
         )
         DatePickerDialog(
             onDismissRequest = { mostrarDatePicker = false },

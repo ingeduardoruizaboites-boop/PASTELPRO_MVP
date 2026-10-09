@@ -50,7 +50,11 @@ import java.util.Locale
 @Composable
 fun PedidosScreen(
     onNuevoPedido: () -> Unit = {},
-    viewModel: PedidosViewModel = viewModel(factory = PedidosViewModel.Factory)
+    viewModel: PedidosViewModel = viewModel(
+        factory = PedidosViewModel.factory(
+            androidx.compose.ui.platform.LocalContext.current.applicationContext as android.app.Application
+        )
+    )
 ) {
     val state by viewModel.uiState.collectAsState()
 

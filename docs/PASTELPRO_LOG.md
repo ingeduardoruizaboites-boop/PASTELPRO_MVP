@@ -556,3 +556,38 @@ Bloque 7: pulido visual (transiciones, animaciones, haptic feedback).
 - Leche guardada con unidad "kg" en inventario pero usada como "l" en receta.
   El motor lo maneja correctamente, pero la app debería ofrecer edición de ingredientes
   y sugerir unidades según categoría (V1.1).
+
+---
+
+## ENTRADA — 2026-10-08 · Sesión 5 · Bloque 7C-P2 cerrado (Notificaciones)
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Sistema de notificaciones con WorkManager para pedidos pendientes.
+
+### QUÉ SE HIZO
+- `RecordatorioWorker`: worker que dispara notificación si el pedido sigue PENDIENTE.
+- `NotificacionScheduler`: programa 2 alarmas por pedido (días antes + mismo día).
+- Hora de las alarmas = hora de entrega del pedido (fallback: config global).
+- Al marcar ENTREGADO → cancela recordatorios.
+- DatePicker bloquea fechas pasadas (fix UX descubierto en pruebas).
+
+### BUGS RESUELTOS
+1. `Unresolved reference 'first'` → import explícito de `kotlinx.coroutines.flow.first`.
+2. Scheduler usaba hora global en lugar de hora del pedido → corregido.
+3. DatePicker permitía fechas pasadas → bloqueado con `SelectableDates`.
+
+### DISPOSITIVO
+- Xiaomi Redmi Note 9S, Android 11.
+- Prueba: pedido para hoy 21:14, notificación llegó puntual a las 21:14.
+- Alarma A (días antes) skipped porque ya había pasado.
+- Alarma B (mismo día) programada correctamente.
+
+### COMANDOS
+- `./gradlew test` → 102 tests, 0 fallos
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL
+
+### RESULTADO REAL
+Notificación flotante funciona end-to-end.
+
+### SUGERENCIA
+Parte 3: UI de configuración de notificaciones (días antes, hora).

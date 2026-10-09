@@ -1,5 +1,6 @@
 package com.pastelpro.ui.screens.pedidos
 
+import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -19,10 +20,12 @@ import com.pastelpro.engine.CalculadoraCostoReceta
 import com.pastelpro.engine.MotorEscalado
 import com.pastelpro.engine.MotorPrecio
 import com.pastelpro.engine.Unidad
+import com.pastelpro.notificaciones.NotificacionScheduler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -31,6 +34,7 @@ import java.math.RoundingMode
 private const val TAG = "PastelProWizard"
 
 class NuevoPedidoViewModel(
+    private val application: Application,
     private val recetaRepository: RecetaRepository,
     private val ingredienteRepository: IngredienteRepository,
     private val pedidoRepository: PedidoRepository
@@ -173,6 +177,25 @@ class NuevoPedidoViewModel(
 
         viewModelScope.launch {
             pedidoRepository.agregar(pedido)
+
+            // Programar recordatorios
+            try {
+                val configRepo = com.pastelpro.data.repository.RepositorioProvider.configuracionRepository
+                val habilitadas = configRepo.notificacionesHabilitadas.first()
+                val diasAntes = configRepo.diasAntes.first()
+                val hora = configRepo.horaNotificacion.first()
+
+                NotificacionScheduler.programarRecordatorios(
+                    context = application,
+                    pedido = pedido,
+                    diasAntes = diasAntes,
+                    horaNotificacion = hora,
+                    habilitadas = habilitadas
+                )
+            } catch (e: Exception) {
+                DiagnosticLogger.logError(TAG, "Error programando recordatorios", e)
+            }
+
             onExito()
         }
     }
@@ -232,10 +255,11 @@ class NuevoPedidoViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        fun factory(application: Application): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return NuevoPedidoViewModel(
+                    application = application,
                     recetaRepository = RepositorioProvider.recetaRepository,
                     ingredienteRepository = RepositorioProvider.ingredienteRepository,
                     pedidoRepository = RepositorioProvider.pedidoRepository
