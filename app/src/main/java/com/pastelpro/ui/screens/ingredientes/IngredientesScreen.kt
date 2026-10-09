@@ -1,6 +1,7 @@
 package com.pastelpro.ui.screens.ingredientes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,6 +61,7 @@ fun IngredientesScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     var mostrarSheet by remember { mutableStateOf(false) }
+    var ingredienteEnEdicion by remember { mutableStateOf<Ingrediente?>(null) }
     var mostrarMenu by remember { mutableStateOf(false) }
     var mostrarConfirmReset by remember { mutableStateOf(false) }
 
@@ -155,6 +157,10 @@ fun IngredientesScreen(
                         items(s.ingredientes, key = { it.id }) { ing ->
                             IngredienteCard(
                                 ingrediente = ing,
+                                onClick = {
+                                    ingredienteEnEdicion = ing
+                                    mostrarSheet = true
+                                },
                                 onEliminar = { viewModel.eliminar(ing.id) }
                             )
                         }
@@ -166,11 +172,20 @@ fun IngredientesScreen(
 
     if (mostrarSheet) {
         CrearIngredienteSheet(
-            onDismiss = { mostrarSheet = false },
-            onGuardar = { nuevo ->
-                viewModel.agregar(nuevo)
+            onDismiss = {
                 mostrarSheet = false
-            }
+                ingredienteEnEdicion = null
+            },
+            onGuardar = { nuevo ->
+                if (ingredienteEnEdicion != null) {
+                    viewModel.actualizar(nuevo)
+                } else {
+                    viewModel.agregar(nuevo)
+                }
+                mostrarSheet = false
+                ingredienteEnEdicion = null
+            },
+            ingredienteExistente = ingredienteEnEdicion
         )
     }
 
@@ -233,6 +248,7 @@ private fun EmptyState() {
 @Composable
 private fun IngredienteCard(
     ingrediente: Ingrediente,
+    onClick: () -> Unit,
     onEliminar: () -> Unit
 ) {
     val formatoMoneda = remember {
@@ -240,7 +256,9 @@ private fun IngredienteCard(
     }
 
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surface,
         shadowElevation = 1.dp

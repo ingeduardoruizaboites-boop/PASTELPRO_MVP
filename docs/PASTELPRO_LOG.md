@@ -669,3 +669,28 @@ Feedback recibido: app gusta, usable para el flujo real de cotización.
 
 ### SIGUIENTE
 Bloque 8A — Editar ingredientes + dropdown de unidades
+
+---
+
+## ENTRADA — 2026-10-08 · Sesión 6 · Bloque 8A cerrado
+
+**Objetivo:** Editar ingredientes existentes + dropdown de unidades.
+
+### QUÉ SE HIZO
+- Componente `DropdownUnidad` reutilizable (9 unidades).
+- `CrearIngredienteSheet` refactorizado: mismo sheet sirve para crear y editar.
+- `IngredientesViewModel.actualizar()` para persistir cambios.
+- `IngredientesScreen`: tarjeta clickeable → abre sheet en modo edición.
+- i18n ES/EN/PT.
+
+### RESUELVE
+- Deuda técnica "leche en kg debería ser L" — ahora editable desde la propia app.
+- UX de tipeo de unidades → dropdown.
+
+### DISPOSITIVO
+- Xiaomi Redmi Note 9S.
+- Edición de ingredientes funciona end-to-end.
+- Dropdown muestra las 9 unidades correctamente.
+
+### SIGUIENTE
+Bloque 8B — Editar pedidos existentes.

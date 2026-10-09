@@ -179,4 +179,7 @@
     <string name="notif_cambiar_hora">Mudar hora</string>
     <string name="notif_preview">Você receberá lembretes %1$s às %2$s.</string>
     <string name="notif_preview_dias">%1$d dias antes e no mesmo dia</string>
+
+    <string name="ingrediente_editar_titulo">Editar ingrediente</string>
+    <string name="accion_guardar_cambios">Salvar alterações</string>
 </resources>

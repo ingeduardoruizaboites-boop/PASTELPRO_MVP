@@ -46,6 +46,10 @@ class IngredientesViewModel(
         viewModelScope.launch { repository.reiniciarEjemplos() }
     }
 
+    fun actualizar(ingrediente: Ingrediente) {
+        viewModelScope.launch { repository.actualizar(ingrediente) }
+    }
+
     // ─── Factory manual (sin Hilt en MVP) ───
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {

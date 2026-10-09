@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,27 +30,49 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.pastelpro.R
 import com.pastelpro.domain.model.Ingrediente
+import com.pastelpro.ui.components.DropdownUnidad
 import java.math.BigDecimal
 
+/**
+ * Bottom Sheet para crear o editar un ingrediente.
+ * Si [ingredienteExistente] es null → modo creación.
+ * Si [ingredienteExistente] no es null → modo edición.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrearIngredienteSheet(
     onDismiss: () -> Unit,
-    onGuardar: (Ingrediente) -> Unit
+    onGuardar: (Ingrediente) -> Unit,
+    ingredienteExistente: Ingrediente? = null
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    val esEdicion = ingredienteExistente != null
+
     var nombre by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("Harinas") }
-    var presentacion by remember { mutableStateOf("1 kg") }
-    var cantidadTxt by remember { mutableStateOf("1") }
+    var presentacion by remember { mutableStateOf("") }
+    var cantidadTxt by remember { mutableStateOf("") }
     var unidad by remember { mutableStateOf("kg") }
     var precioTxt by remember { mutableStateOf("") }
     var proveedor by remember { mutableStateOf("") }
 
-    val puedeGuardar = nombre.isNotBlank() &&
-            cantidadTxt.toBigDecimalOrNull() != null &&
-            precioTxt.toBigDecimalOrNull() != null
+    // Si estamos en edición, precargar valores
+    LaunchedEffect(ingredienteExistente) {
+        ingredienteExistente?.let { ing ->
+            nombre = ing.nombre
+            categoria = ing.categoria
+            presentacion = ing.presentacionCompra
+            cantidadTxt = ing.cantidadCompra.stripTrailingZeros().toPlainString()
+            unidad = ing.unidadCompra
+            precioTxt = ing.precioCompra.stripTrailingZeros().toPlainString()
+            proveedor = ing.proveedor ?: ""
+        }
+    }
+
+    val puedeGuardar = nombre.isNotBlank()
+            && cantidadTxt.toBigDecimalOrNull() != null
+            && precioTxt.toBigDecimalOrNull() != null
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -62,7 +85,10 @@ fun CrearIngredienteSheet(
                 .padding(horizontal = 24.dp, vertical = 8.dp)
         ) {
             Text(
-                text = stringResource(R.string.ingredientes_nuevo_titulo),
+                text = stringResource(
+                    if (esEdicion) R.string.ingrediente_editar_titulo
+                    else R.string.ingredientes_nuevo_titulo
+                ),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
@@ -90,16 +116,6 @@ fun CrearIngredienteSheet(
 
             Spacer(Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = presentacion,
-                onValueChange = { presentacion = it },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.campo_presentacion)) },
-                singleLine = true
-            )
-
-            Spacer(Modifier.height(12.dp))
-
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 OutlinedTextField(
                     value = cantidadTxt,
@@ -109,12 +125,11 @@ fun CrearIngredienteSheet(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     singleLine = true
                 )
-                OutlinedTextField(
+                DropdownUnidad(
+                    label = stringResource(R.string.campo_unidad),
                     value = unidad,
                     onValueChange = { unidad = it },
-                    modifier = Modifier.weight(1f),
-                    label = { Text(stringResource(R.string.campo_unidad)) },
-                    singleLine = true
+                    modifier = Modifier.weight(1f)
                 )
             }
 
@@ -156,13 +171,17 @@ fun CrearIngredienteSheet(
                 }
                 Button(
                     onClick = {
+                        val cantidad = cantidadTxt.toBigDecimalOrNull() ?: BigDecimal.ZERO
+                        val precio = precioTxt.toBigDecimalOrNull() ?: BigDecimal.ZERO
+
                         val nuevo = Ingrediente(
+                            id = ingredienteExistente?.id ?: java.util.UUID.randomUUID().toString(),
                             nombre = nombre.trim(),
                             categoria = categoria.trim(),
-                            presentacionCompra = presentacion.trim(),
-                            cantidadCompra = cantidadTxt.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                            unidadCompra = unidad.trim(),
-                            precioCompra = precioTxt.toBigDecimalOrNull() ?: BigDecimal.ZERO,
+                            presentacionCompra = "${cantidad.stripTrailingZeros().toPlainString()} $unidad",
+                            cantidadCompra = cantidad,
+                            unidadCompra = unidad,
+                            precioCompra = precio,
                             proveedor = proveedor.trim().ifBlank { null }
                         )
                         onGuardar(nuevo)
@@ -177,7 +196,10 @@ fun CrearIngredienteSheet(
                     )
                 ) {
                     Text(
-                        text = stringResource(R.string.accion_guardar),
+                        text = stringResource(
+                            if (esEdicion) R.string.accion_guardar_cambios
+                            else R.string.accion_guardar
+                        ),
                         fontWeight = FontWeight.SemiBold
                     )
                 }

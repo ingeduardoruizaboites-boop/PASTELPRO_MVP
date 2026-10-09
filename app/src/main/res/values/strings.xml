@@ -191,4 +191,7 @@
     <string name="notif_cambiar_hora">Cambiar hora</string>
     <string name="notif_preview">Recibirás recordatorios %1$s a las %2$s.</string>
     <string name="notif_preview_dias">%1$d días antes y el mismo día</string>
+
+    <string name="ingrediente_editar_titulo">Editar ingrediente</string>
+    <string name="accion_guardar_cambios">Guardar cambios</string>
 </resources>
