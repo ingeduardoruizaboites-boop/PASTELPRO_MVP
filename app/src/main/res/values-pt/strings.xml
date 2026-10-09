@@ -160,4 +160,23 @@
     <string name="nuevo_pedido_seleccionar_fecha">Selecionar data</string>
     <string name="nuevo_pedido_seleccionar_hora">Selecionar hora</string>
     <string name="accion_confirmar">Confirmar</string>
+
+    <string name="mas_subtitulo">Configurações e informações</string>
+    <string name="mas_seccion_config">Configurações</string>
+    <string name="mas_seccion_info">Informações</string>
+    <string name="mas_notificaciones">Notificações</string>
+    <string name="mas_notificaciones_sub">Lembretes de pedidos pendentes</string>
+    <string name="mas_acerca_de">Sobre o PastelPro</string>
+    <string name="mas_acerca_de_sub">Versão, créditos e contato</string>
+
+    <string name="notif_activar">Mostrar notificações</string>
+    <string name="notif_activar_sub">Lembretes para pedidos próximos</string>
+    <string name="notif_dias_antes">Aviso antecipado</string>
+    <string name="notif_dias_antes_sub">Dias antes da entrega</string>
+    <string name="notif_solo_mismo_dia">Só no dia</string>
+    <string name="notif_hora">Hora do lembrete</string>
+    <string name="notif_hora_sub">Quando receber o aviso</string>
+    <string name="notif_cambiar_hora">Mudar hora</string>
+    <string name="notif_preview">Você receberá lembretes %1$s às %2$s.</string>
+    <string name="notif_preview_dias">%1$d dias antes e no mesmo dia</string>
 </resources>

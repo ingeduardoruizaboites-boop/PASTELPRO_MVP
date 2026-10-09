@@ -591,3 +591,27 @@ Notificación flotante funciona end-to-end.
 
 ### SUGERENCIA
 Parte 3: UI de configuración de notificaciones (días antes, hora).
+
+---
+
+## ENTRADA — 2026-10-08 · Sesión 5 · Bloque 7C cerrado
+
+**Objetivo:** UI de configuración de notificaciones.
+
+### QUÉ SE HIZO
+- `MasScreen` con secciones Configuración e Información.
+- `NotificacionesScreen` con switch global + chips de días + TimePicker + preview.
+- `NotificacionesViewModel` conectado a DataStore.
+- Ruta NOTIFICACIONES registrada.
+
+### BUG RESUELTO
+- Falta `mkdir` antes de crear MasScreen.kt.
+
+### BUILD
+PASS · 102 tests OK.
+
+### DISPOSITIVO
+- Configuración persiste tras cerrar app.
+
+### SIGUIENTE
+Bloque 7C cerrado. Sistema de notificaciones completo.

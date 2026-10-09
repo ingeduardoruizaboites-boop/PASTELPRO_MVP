@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -35,6 +36,9 @@ import com.pastelpro.ui.screens.ShoppingScreen
 import com.pastelpro.ui.screens.SplashScreen
 import com.pastelpro.ui.screens.WelcomeScreen
 import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
+import com.pastelpro.ui.screens.mas.MasScreen
+import com.pastelpro.ui.screens.mas.NotificacionesScreen
+import com.pastelpro.ui.screens.mas.NotificacionesViewModel
 import com.pastelpro.ui.screens.pedidos.NuevoPedidoScreen
 import com.pastelpro.ui.screens.pedidos.PedidosScreen
 import com.pastelpro.ui.screens.recetas.CostoPrecioScreen
@@ -115,7 +119,8 @@ fun PastelProApp() {
             MainScaffold(
                 onIrIngredientes = { navController.navigate(Routes.INGREDIENTES) },
                 onIrRecetaDetalle = { id -> navController.navigate(Routes.recetaDetalle(id)) },
-                onIrNuevoPedido = { navController.navigate(Routes.NUEVO_PEDIDO) }
+                onIrNuevoPedido = { navController.navigate(Routes.NUEVO_PEDIDO) },
+                onIrNotificaciones = { navController.navigate(Routes.NOTIFICACIONES) }
             )
         }
 
@@ -146,6 +151,16 @@ fun PastelProApp() {
             )
         }
 
+        composable(Routes.NOTIFICACIONES) {
+            val app = LocalContext.current.applicationContext as android.app.Application
+            NotificacionesScreen(
+                onBack = { navController.popBackStack() },
+                viewModel = androidx.lifecycle.viewmodel.compose.viewModel(
+                    factory = NotificacionesViewModel.factory(app)
+                )
+            )
+        }
+
         composable(Routes.NUEVO_PEDIDO) {
             NuevoPedidoScreen(
                 onBack = { navController.popBackStack() },
@@ -164,7 +179,8 @@ fun PastelProApp() {
 private fun MainScaffold(
     onIrIngredientes: () -> Unit,
     onIrRecetaDetalle: (String) -> Unit,
-    onIrNuevoPedido: () -> Unit
+    onIrNuevoPedido: () -> Unit,
+    onIrNotificaciones: () -> Unit
 ) {
     val innerNav = rememberNavController()
     val backStack by innerNav.currentBackStackEntryAsState()
@@ -227,7 +243,11 @@ private fun MainScaffold(
                 PedidosScreen(onNuevoPedido = onIrNuevoPedido)
             }
             composable(Routes.SHOPPING) { ShoppingScreen() }
-            composable(Routes.MORE) { MoreScreen() }
+            composable(Routes.MORE) {
+                MasScreen(
+                    onIrNotificaciones = onIrNotificaciones
+                )
+            }
         }
     }
 }
