@@ -615,3 +615,57 @@ PASS · 102 tests OK.
 
 ### SIGUIENTE
 Bloque 7C cerrado. Sistema de notificaciones completo.
+
+---
+
+## ENTRADA — 2026-10-08 · Sesión 6 · Validación inicial + decisiones de producto
+
+**Contexto:** Primera validación real con usuaria objetivo (esposa de Eduardo).
+Feedback recibido: app gusta, usable para el flujo real de cotización.
+
+### DECISIONES DE PRODUCTO (Free vs Pro)
+
+**FREE (para dar confianza desde el primer día):**
+- Editar ingredientes (correctivo — cualquiera debe poder arreglar un error)
+- Editar pedidos
+- Dropdown de unidades
+- Tamaño de molde en receta
+- Porciones calculadas según molde
+- Costo de gas/luz configurable (monto fijo por horneada)
+
+**PRO (features que ahorran tiempo masivo):**
+- Escanear recetas con OCR (fotos/PDF/cuaderno)
+- PDF lista de compras con logo
+- Historial de precios por ingrediente
+- Backup en nube (V2)
+
+### SOLICITUDES REGISTRADAS (feedback esposa)
+
+1. **Editar ingredientes existentes** (crítico: "leche en kg" debería ser L)
+2. **Editar pedidos** (agregar campos olvidados)
+3. **Dropdown de unidades** (kg, g, L, ml, pieza, docena, etc.)
+4. **Tamaño de molde** en receta + cálculo de porciones según molde
+5. **Costo de gas/luz** — método simple: monto fijo por horneada (configurable, OFF por defecto)
+6. **Escanear recetas** — Pro, V1.1
+7. **Ingredientes "raros"** — ya soportado (campo nombre libre)
+
+### ROADMAP REORDENADO
+
+| Bloque | Contenido | Free/Pro |
+|---|---|---|
+| **8** | Editar ingredientes + Editar pedidos + Dropdown unidades | Free |
+| **9** | Molde + Porciones según molde | Free |
+| **10** | Costo gas/luz configurable | Free |
+| **11** | Monetización Pro (Google Play Billing) | — |
+| **12** | Play Store (ficha, screenshots, política) | — |
+| **13** | OCR escanear recetas | Pro V1.1 |
+| **14** | PDF lista de compras | Pro V1.1 |
+
+### ESTRATEGIA DE VALIDACIÓN
+
+- Semana de uso real con la esposa (sin asistencia técnica)
+- Documento `docs/VALIDACION_USUARIA.md` con preguntas guía
+- Feedback se anota en ese mismo archivo o en papel
+
+### SIGUIENTE
+Bloque 8A — Editar ingredientes + dropdown de unidades
