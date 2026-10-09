@@ -48,7 +48,16 @@ class NuevoPedidoViewModel(
     var cliente by mutableStateOf("")
         private set
 
-    var fechaEntrega by mutableStateOf("")
+    var telefonoContacto by mutableStateOf("")
+        private set
+
+    var fechaEntregaIso by mutableStateOf<String?>(null)
+        private set
+
+    var horaEntrega by mutableStateOf("")
+        private set
+
+    var direccionEntrega by mutableStateOf("")
         private set
 
     var notas by mutableStateOf("")
@@ -122,7 +131,10 @@ class NuevoPedidoViewModel(
     }
 
     fun cambiarCliente(txt: String) { cliente = txt }
-    fun cambiarFecha(txt: String) { fechaEntrega = txt }
+    fun cambiarTelefono(txt: String) { telefonoContacto = txt }
+    fun cambiarFecha(iso: String?) { fechaEntregaIso = iso }
+    fun cambiarHora(txt: String) { horaEntrega = txt }
+    fun cambiarDireccion(txt: String) { direccionEntrega = txt }
     fun cambiarNotas(txt: String) { notas = txt }
 
     fun cambiarPrecioAcordado(txt: String) {
@@ -147,10 +159,13 @@ class NuevoPedidoViewModel(
             recetaId = receta.id,
             recetaNombre = receta.nombre,
             cliente = cliente.trim().ifBlank { null },
+            telefonoContacto = telefonoContacto.trim().ifBlank { null },
             porciones = porcionesNuevas,
             costoTotal = costo,
             precioAcordado = precio,
-            fechaEntrega = fechaEntrega.trim().ifBlank { null },
+            fechaEntrega = fechaEntregaIso,
+            horaEntrega = horaEntrega.trim().ifBlank { null },
+            direccionEntrega = direccionEntrega.trim().ifBlank { null },
             notas = notas.trim().ifBlank { null }
         )
 

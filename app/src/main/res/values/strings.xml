@@ -163,4 +163,11 @@
     <string name="nuevo_pedido_precio_input_label">Precio final</string>
     <string name="nuevo_pedido_calculando">Calculando...</string>
     <string name="nuevo_pedido_guardar">Guardar pedido</string>
+
+    <string name="nuevo_pedido_telefono">Teléfono de contacto</string>
+    <string name="nuevo_pedido_hora">Hora de entrega</string>
+    <string name="nuevo_pedido_direccion">Dirección de entrega</string>
+    <string name="nuevo_pedido_seleccionar_fecha">Seleccionar fecha</string>
+    <string name="nuevo_pedido_seleccionar_hora">Seleccionar hora</string>
+    <string name="accion_confirmar">Confirmar</string>
 </resources>

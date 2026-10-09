@@ -12,10 +12,13 @@ object PedidoMapper {
         recetaId = entity.recetaId,
         recetaNombre = entity.recetaNombre,
         cliente = entity.cliente,
+        telefonoContacto = entity.telefonoContacto,
         porciones = entity.porciones,
         costoTotal = entity.costoTotal.toBigDecimalOrNull() ?: BigDecimal.ZERO,
         precioAcordado = entity.precioAcordado.toBigDecimalOrNull() ?: BigDecimal.ZERO,
         fechaEntrega = entity.fechaEntrega,
+        horaEntrega = entity.horaEntrega,
+        direccionEntrega = entity.direccionEntrega,
         notas = entity.notas,
         estado = try {
             EstadoPedido.valueOf(entity.estado)
@@ -30,10 +33,13 @@ object PedidoMapper {
         recetaId = pedido.recetaId,
         recetaNombre = pedido.recetaNombre,
         cliente = pedido.cliente,
+        telefonoContacto = pedido.telefonoContacto,
         porciones = pedido.porciones,
         costoTotal = pedido.costoTotal.toPlainString(),
         precioAcordado = pedido.precioAcordado.toPlainString(),
         fechaEntrega = pedido.fechaEntrega,
+        horaEntrega = pedido.horaEntrega,
+        direccionEntrega = pedido.direccionEntrega,
         notas = pedido.notas,
         estado = pedido.estado.name,
         creadoEn = pedido.creadoEn

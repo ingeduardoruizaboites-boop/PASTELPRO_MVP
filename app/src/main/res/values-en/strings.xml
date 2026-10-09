@@ -153,4 +153,11 @@
     <string name="nuevo_pedido_precio_input_label">Final price</string>
     <string name="nuevo_pedido_calculando">Calculating...</string>
     <string name="nuevo_pedido_guardar">Save order</string>
+
+    <string name="nuevo_pedido_telefono">Contact phone</string>
+    <string name="nuevo_pedido_hora">Delivery time</string>
+    <string name="nuevo_pedido_direccion">Delivery address</string>
+    <string name="nuevo_pedido_seleccionar_fecha">Select date</string>
+    <string name="nuevo_pedido_seleccionar_hora">Select time</string>
+    <string name="accion_confirmar">Confirm</string>
 </resources>

@@ -13,11 +13,14 @@ data class PedidoEntity(
     val recetaId: String,
     val recetaNombre: String,
     val cliente: String?,
+    val telefonoContacto: String?,
     val porciones: Int,
-    val costoTotal: String,        // BigDecimal serializado
+    val costoTotal: String,
     val precioAcordado: String,
     val fechaEntrega: String?,
+    val horaEntrega: String?,
+    val direccionEntrega: String?,
     val notas: String?,
-    val estado: String,            // "PENDIENTE" o "ENTREGADO"
+    val estado: String,
     val creadoEn: Long
 )

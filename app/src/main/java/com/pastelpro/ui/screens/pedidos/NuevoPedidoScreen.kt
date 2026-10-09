@@ -352,58 +352,6 @@ private fun Paso2Porciones(vm: NuevoPedidoViewModel) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PASO 3
-// ═══════════════════════════════════════════════════════════════
-@Composable
-private fun Paso3Cliente(vm: NuevoPedidoViewModel) {
-    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp)) {
-        Text(
-            text = stringResource(R.string.nuevo_pedido_paso3_titulo),
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.SemiBold
-        )
-        Spacer(Modifier.height(6.dp))
-        Text(
-            text = stringResource(R.string.nuevo_pedido_paso3_ayuda),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        OutlinedTextField(
-            value = vm.cliente,
-            onValueChange = vm::cambiarCliente,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.nuevo_pedido_cliente)) },
-            singleLine = true
-        )
-
-        Spacer(Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = vm.fechaEntrega,
-            onValueChange = vm::cambiarFecha,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.nuevo_pedido_fecha)) },
-            singleLine = true
-        )
-
-        Spacer(Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = vm.notas,
-            onValueChange = vm::cambiarNotas,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.nuevo_pedido_notas)) },
-            minLines = 3,
-            maxLines = 5
-        )
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
 // PASO 4
 // ═══════════════════════════════════════════════════════════════
 @Composable
