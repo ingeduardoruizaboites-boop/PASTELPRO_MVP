@@ -127,4 +127,30 @@
     <string name="costo_precio_total">Custo total</string>
     <string name="costo_precio_faltantes">%1$d ingrediente(s) sem custo:</string>
     <string name="costo_precio_no_encontrado">Não encontrado</string>
+
+    <string name="pedidos_subtitulo">Suas cotações e vendas</string>
+    <string name="pedidos_nuevo">Novo pedido</string>
+    <string name="pedidos_vacio_titulo">Ainda sem pedidos</string>
+    <string name="pedidos_vacio_detalle">Crie seu primeiro pedido para salvar cotações e preços acordados.</string>
+    <string name="pedidos_precio">Preço</string>
+    <string name="pedidos_ganancia">Lucro</string>
+    <string name="pedidos_marcar_entregado">Marcar como entregue</string>
+
+    <string name="nuevo_pedido_titulo">Novo pedido</string>
+    <string name="nuevo_pedido_paso_de">Passo %1$d de %2$d</string>
+    <string name="nuevo_pedido_paso1_titulo">Qual receita você vai fazer?</string>
+    <string name="nuevo_pedido_sin_recetas">Você ainda não tem receitas. Crie uma na seção Receitas primeiro.</string>
+    <string name="nuevo_pedido_paso2_titulo">Para quantas porções?</string>
+    <string name="nuevo_pedido_base">Receita base: %1$s</string>
+    <string name="nuevo_pedido_paso3_titulo">Dados do cliente</string>
+    <string name="nuevo_pedido_paso3_ayuda">Todos os campos são opcionais.</string>
+    <string name="nuevo_pedido_cliente">Cliente</string>
+    <string name="nuevo_pedido_fecha">Data de entrega</string>
+    <string name="nuevo_pedido_notas">Observações</string>
+    <string name="nuevo_pedido_paso4_titulo">Resumo e preço</string>
+    <string name="nuevo_pedido_resumen">%1$d %2$s</string>
+    <string name="nuevo_pedido_precio_acordado">Preço acordado com o cliente</string>
+    <string name="nuevo_pedido_precio_input_label">Preço final</string>
+    <string name="nuevo_pedido_calculando">Calculando...</string>
+    <string name="nuevo_pedido_guardar">Salvar pedido</string>
 </resources>

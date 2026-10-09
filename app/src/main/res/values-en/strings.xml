@@ -127,4 +127,30 @@
     <string name="costo_precio_total">Total cost</string>
     <string name="costo_precio_faltantes">%1$d ingredient(s) without cost:</string>
     <string name="costo_precio_no_encontrado">Not found</string>
+
+    <string name="pedidos_subtitulo">Your quotes and sales</string>
+    <string name="pedidos_nuevo">New order</string>
+    <string name="pedidos_vacio_titulo">No orders yet</string>
+    <string name="pedidos_vacio_detalle">Create your first order to save quotes and agreed prices.</string>
+    <string name="pedidos_precio">Price</string>
+    <string name="pedidos_ganancia">Profit</string>
+    <string name="pedidos_marcar_entregado">Mark as delivered</string>
+
+    <string name="nuevo_pedido_titulo">New order</string>
+    <string name="nuevo_pedido_paso_de">Step %1$d of %2$d</string>
+    <string name="nuevo_pedido_paso1_titulo">Which recipe will you bake?</string>
+    <string name="nuevo_pedido_sin_recetas">You have no recipes yet. Create one in the Recipes section first.</string>
+    <string name="nuevo_pedido_paso2_titulo">For how many servings?</string>
+    <string name="nuevo_pedido_base">Base recipe: %1$s</string>
+    <string name="nuevo_pedido_paso3_titulo">Customer info</string>
+    <string name="nuevo_pedido_paso3_ayuda">All fields are optional.</string>
+    <string name="nuevo_pedido_cliente">Customer</string>
+    <string name="nuevo_pedido_fecha">Delivery date</string>
+    <string name="nuevo_pedido_notas">Notes</string>
+    <string name="nuevo_pedido_paso4_titulo">Summary and price</string>
+    <string name="nuevo_pedido_resumen">%1$d %2$s</string>
+    <string name="nuevo_pedido_precio_acordado">Price agreed with customer</string>
+    <string name="nuevo_pedido_precio_input_label">Final price</string>
+    <string name="nuevo_pedido_calculando">Calculating...</string>
+    <string name="nuevo_pedido_guardar">Save order</string>
 </resources>

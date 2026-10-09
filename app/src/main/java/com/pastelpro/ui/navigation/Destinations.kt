@@ -30,6 +30,9 @@ object Routes {
     const val COSTO_PRECIO_BASE = "costo-precio"
     const val COSTO_PRECIO = "$RECETA_DETALLE/$COSTO_PRECIO_BASE"
     fun costoPrecio(id: String) = "$RECETA_DETALLE_BASE/$id/$COSTO_PRECIO_BASE"
+
+    // Wizard de nuevo pedido
+    const val NUEVO_PEDIDO = "nuevo-pedido"
 }
 
 data class BottomNavItem(

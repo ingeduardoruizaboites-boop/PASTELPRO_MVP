@@ -28,6 +28,8 @@ import com.pastelpro.ui.screens.ShoppingScreen
 import com.pastelpro.ui.screens.SplashScreen
 import com.pastelpro.ui.screens.WelcomeScreen
 import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
+import com.pastelpro.ui.screens.pedidos.NuevoPedidoScreen
+import com.pastelpro.ui.screens.pedidos.PedidosScreen
 import com.pastelpro.ui.screens.recetas.CostoPrecioScreen
 import com.pastelpro.ui.screens.recetas.RecetaDetalleScreen
 import com.pastelpro.ui.screens.recetas.RecetasScreen
@@ -74,7 +76,8 @@ fun PastelProApp() {
         composable(Routes.MAIN) {
             MainScaffold(
                 onIrIngredientes = { navController.navigate(Routes.INGREDIENTES) },
-                onIrRecetaDetalle = { id -> navController.navigate(Routes.recetaDetalle(id)) }
+                onIrRecetaDetalle = { id -> navController.navigate(Routes.recetaDetalle(id)) },
+                onIrNuevoPedido = { navController.navigate(Routes.NUEVO_PEDIDO) }
             )
         }
 
@@ -104,13 +107,26 @@ fun PastelProApp() {
                 onBack = { navController.popBackStack() }
             )
         }
+
+        composable(Routes.NUEVO_PEDIDO) {
+            NuevoPedidoScreen(
+                onBack = { navController.popBackStack() },
+                onGuardado = {
+                    // Vuelve a Main y navega al tab Pedidos
+                    navController.navigate(Routes.MAIN) {
+                        popUpTo(Routes.MAIN) { inclusive = true }
+                    }
+                }
+            )
+        }
     }
 }
 
 @Composable
 private fun MainScaffold(
     onIrIngredientes: () -> Unit,
-    onIrRecetaDetalle: (String) -> Unit
+    onIrRecetaDetalle: (String) -> Unit,
+    onIrNuevoPedido: () -> Unit
 ) {
     val innerNav = rememberNavController()
     val backStack by innerNav.currentBackStackEntryAsState()
@@ -161,7 +177,7 @@ private fun MainScaffold(
         ) {
             composable(Routes.HOME) {
                 HomeScreen(
-                    onNuevoPastel = { /* Wizard Bloque 5 */ },
+                    onNuevoPastel = onIrNuevoPedido,
                     onVerRecetas = { innerNav.navigate(Routes.RECIPES) },
                     onVerIngredientes = onIrIngredientes
                 )
@@ -169,7 +185,9 @@ private fun MainScaffold(
             composable(Routes.RECIPES) {
                 RecetasScreen(onRecetaClick = onIrRecetaDetalle)
             }
-            composable(Routes.ORDERS) { OrdersScreen() }
+            composable(Routes.ORDERS) {
+                PedidosScreen(onNuevoPedido = onIrNuevoPedido)
+            }
             composable(Routes.SHOPPING) { ShoppingScreen() }
             composable(Routes.MORE) { MoreScreen() }
         }

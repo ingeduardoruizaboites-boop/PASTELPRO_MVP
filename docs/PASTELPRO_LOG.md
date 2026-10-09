@@ -502,3 +502,57 @@ Bloque 5B: mano de obra + energía + merma configurable.
 [IMPORTANTE] Leche guardada como "kg" en inventario pero usada como "l" en receta.
    El motor no convierte entre categorías (correcto). Mensaje claro al usuario.
    Deuda UX: permitir editar unidad de compra de un ingrediente existente.
+
+---
+
+## ENTRADA — 2026-10-08 · Sesión 5 · Bloque 6A cerrado (Wizard + Pedidos)
+
+**Versión/build:** 0.1.0-mvp-debug
+**Objetivo:** Cerrar ciclo de valor del usuario con wizard de cotización + historial de pedidos.
+
+### QUÉ SE HIZO
+- Modelo `Pedido` con snapshot de costo y precio acordado.
+- Room v4 con migración aditiva 3→4 (sin pérdida de datos).
+- Wizard "Nuevo pastel" en 4 pasos: receta → porciones → cliente → resumen.
+- Tab "Pedidos" con lista real, badge de estado, marcar entregado, eliminar.
+- Botón grande "Nuevo pastel" del Home ahora abre el wizard (antes navegaba a Ingredientes).
+- Fix timing inventario: ViewModel observa Room con `collect` en `init`.
+- Detalles de faltantes con receta vs inventario.
+
+### ARCHIVOS
+- `domain/model/Pedido.kt`, `data/local/{PedidoEntity,PedidoDao}.kt`
+- `data/local/mapper/PedidoMapper.kt`
+- `domain/repository/PedidoRepository.kt`, `data/repository/PedidoRepositoryRoom.kt`
+- `ui/screens/pedidos/{PedidosScreen,PedidosViewModel,NuevoPedidoScreen,NuevoPedidoViewModel}.kt`
+- `PastelProApp.kt`, `Destinations.kt`, `RepositorioProvider.kt`
+- `res/values{,-en,-pt}/strings.xml` (+30 cadenas)
+
+### COMANDOS
+- `./gradlew test` → 102 tests, 0 fallos
+- `./gradlew assembleDebug` → BUILD SUCCESSFUL
+- Probado en Xiaomi Redmi Note 9S
+
+### DISPOSITIVO
+- Wizard completo con "pastel de naranja" → 100 porciones:
+  - Costo real: **$478.80**
+  - Mínimo 20%: $598.50
+  - Recomendado 40%: $798.00
+  - Premium 60%: $1,197.00
+- Pedido guardado con snapshot, persiste tras cerrar app.
+
+### ¿ERA FIX?
+Sí — 1 bug resuelto:
+- ViewModel leía `inventario.value` antes de que Room emitiera.
+- Corregido observando el StateFlow en `init` y recalculando cuando llegue.
+
+### HIPÓTESIS DESCARTADAS
+- "El wizard no actualiza al cambiar porciones" → FALSO, era el timing del inventario.
+- "Room no persiste Pedidos" → FALSO, persiste correctamente.
+
+### SUGERENCIA
+Bloque 7: pulido visual (transiciones, animaciones, haptic feedback).
+
+### DEUDA TÉCNICA
+- Leche guardada con unidad "kg" en inventario pero usada como "l" en receta.
+  El motor lo maneja correctamente, pero la app debería ofrecer edición de ingredientes
+  y sugerir unidades según categoría (V1.1).
