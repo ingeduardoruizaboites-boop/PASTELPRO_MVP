@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,6 +48,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pastelpro.R
 import com.pastelpro.domain.model.IngredienteDeReceta
 import com.pastelpro.domain.model.Receta
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -151,34 +156,55 @@ private fun ContenidoReceta(
     onVerCostoPrecio: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)) {
-            Text(
-                text = receta.tipo,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = receta.rendimientoTexto,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.SemiBold
-            )
-            receta.moldeTexto?.let { molde ->
-                Spacer(Modifier.height(4.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = molde,
+                    text = receta.tipo,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                Text(
+                    text = receta.rendimientoTexto,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold
+                )
+                receta.moldeTexto?.let { molde ->
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = molde,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.receta_ingredientes_titulo),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.SemiBold
-            )
+            // Imagen del molde a la derecha si la receta tiene uno
+            if (receta.tieneMolde) {
+                Spacer(Modifier.width(12.dp))
+                Image(
+                    painter = painterResource(id = moldImageFor(receta.moldeForma)),
+                    contentDescription = receta.moldeTexto,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                )
+            }
         }
+
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.receta_ingredientes_titulo),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
 
         if (receta.ingredientes.isEmpty()) {
             Box(
@@ -309,5 +335,16 @@ private fun IngredienteDeRecetaCard(
                 )
             }
         }
+    }
+}
+
+/** Mapea el nombre de forma del molde a su drawable. */
+private fun moldImageFor(moldeForma: String?): Int {
+    return when (moldeForma?.lowercase()) {
+        "redondo" -> com.pastelpro.R.drawable.molde_redondo
+        "cuadrado" -> com.pastelpro.R.drawable.molde_cuadrado
+        "rectangular" -> com.pastelpro.R.drawable.molde_rectangular
+        "corazón", "corazon" -> com.pastelpro.R.drawable.molde_corazon
+        else -> com.pastelpro.R.drawable.molde_redondo
     }
 }

@@ -93,17 +93,18 @@ fun SelectorMoldes(
         ) {
             if (estado.forma == null) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        imageVector = Icons.Filled.Image,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(40.dp)
+                    // Logo de PastelPro como guía visual
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_pastelpro),
+                        contentDescription = stringResource(R.string.app_name),
+                        modifier = Modifier.size(72.dp)
                     )
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(8.dp))
                     Text(
-                        text = stringResource(R.string.receta_molde_imagen_placeholder),
+                        text = stringResource(R.string.receta_molde_selecciona_forma),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Medium
                     )
                 }
             } else {

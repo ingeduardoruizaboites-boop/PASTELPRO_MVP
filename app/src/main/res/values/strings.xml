@@ -210,4 +210,5 @@
 
     <string name="receta_molde_otro_tamano">Otro tamaño</string>
     <string name="receta_molde_otro_sub">Ingresar medidas manualmente</string>
+    <string name="receta_molde_selecciona_forma">Selecciona el tipo de molde</string>
 </resources>

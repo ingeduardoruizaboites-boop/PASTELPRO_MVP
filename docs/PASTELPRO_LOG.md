@@ -744,3 +744,22 @@ PASS · 126 tests OK (MotorMoldes subió a 24 tests con el de corazón).
 
 ### SIGUIENTE
 Bloque 10 — Costo gas/luz configurable.
+
+---
+
+## ENTRADA — 2026-10-09 · Sesión 6 · Bloque 9C cerrado
+
+**Objetivo:** Mejoras visuales del molde (logo guía + imagen en header).
+
+### QUÉ SE HIZO
+- SelectorMoldes: logo PastelPro + mensaje "Selecciona el tipo de molde" cuando no hay forma.
+- RecetaDetalleScreen: imagen del molde a la derecha del header (80dp).
+- Fix: import `size` faltante en RecetaDetalleScreen.
+
+### DISPOSITIVO
+- Xiaomi Redmi Note 9S: todo funciona.
+- Receta "pastel": Cuadrado 28×28×8 con imagen visible.
+- Cuadrado 30×30 → 46 porciones sugeridas.
+
+### SIGUIENTE
+Bloque 10 — Costo gas/luz configurable.

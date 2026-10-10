@@ -197,4 +197,5 @@
 
     <string name="receta_molde_otro_tamano">Other size</string>
     <string name="receta_molde_otro_sub">Enter measurements manually</string>
+    <string name="receta_molde_selecciona_forma">Select the mold type</string>
 </resources>
