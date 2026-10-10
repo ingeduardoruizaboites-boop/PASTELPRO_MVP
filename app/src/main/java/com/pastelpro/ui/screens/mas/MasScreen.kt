@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +34,7 @@ import com.pastelpro.R
 @Composable
 fun MasScreen(
     onIrNotificaciones: () -> Unit = {},
+    onIrCostosAvanzados: () -> Unit = {},
     onIrAcercaDe: () -> Unit = {}
 ) {
     Column(
@@ -70,6 +72,15 @@ fun MasScreen(
             titulo = stringResource(R.string.mas_notificaciones),
             subtitulo = stringResource(R.string.mas_notificaciones_sub),
             onClick = onIrNotificaciones
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        OpcionItem(
+            icon = Icons.Filled.LocalFireDepartment,
+            titulo = stringResource(R.string.mas_costos_avanzados),
+            subtitulo = stringResource(R.string.mas_costos_avanzados_sub),
+            onClick = onIrCostosAvanzados
         )
 
         Spacer(Modifier.height(24.dp))

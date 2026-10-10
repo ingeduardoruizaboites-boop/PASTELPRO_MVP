@@ -353,6 +353,13 @@ private fun ContenidoCostoPrecio(
                 formatearMoneda(resultado.costoIngredientes, formatoMoneda),
                 false
             )
+            if (resultado.costoHorneada > java.math.BigDecimal.ZERO) {
+                FilaResumen(
+                    stringResource(R.string.costo_precio_gas_luz),
+                    formatearMoneda(resultado.costoHorneada, formatoMoneda),
+                    false
+                )
+            }
             FilaResumen(
                 stringResource(
                     R.string.costo_precio_merma,

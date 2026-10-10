@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 private const val TAG = "PastelProCosto"
@@ -68,30 +69,29 @@ class CostoPrecioViewModel(
             ingredienteRepository.observarTodos().collect { inventario ->
                 DiagnosticLogger.seccion("Inventario emitido")
                 DiagnosticLogger.log("VM", "Inventario: ${inventario.size} ingredientes")
-                inventario.forEach { ing ->
-                    DiagnosticLogger.log("VM", "  · [id=${ing.id}] ${ing.nombre} precio=${ing.precioCompra} cantidad=${ing.cantidadCompra} ${ing.unidadCompra}")
-                }
-                receta.ingredientes.forEach { r ->
-                    DiagnosticLogger.log("VM", "  · receta pide: [id=${r.ingredienteId}] ${r.nombre} ${r.cantidad} ${r.unidad}")
-                }
 
                 try {
-                    DiagnosticLogger.log("VM", "Calculando resultado...")
-                    val resultado = CalculadoraCostoReceta.calcular(receta, inventario)
-                    DiagnosticLogger.log("VM", "Resultado: costoTotal=${resultado.costoTotal}, faltantes=${resultado.faltantes.size}, desglose=${resultado.desglose.size}")
+                    // Leer config gas/luz
+                    val configRepo = RepositorioProvider.configuracionRepository
+                    val activo = configRepo.costoHorneadaActivo.first()
+                    val monto = configRepo.costoHorneadaMonto.first()
+                    val costoHorneada = if (activo) java.math.BigDecimal(monto) else java.math.BigDecimal.ZERO
 
-                    DiagnosticLogger.log("VM", "Calculando precios...")
+                    DiagnosticLogger.log("VM", "Gas/luz activo=$activo, monto=$monto, aplicado=$costoHorneada")
+
+                    val resultado = CalculadoraCostoReceta.calcular(
+                        receta = receta,
+                        inventario = inventario,
+                        costoHorneada = costoHorneada
+                    )
                     val precios = CalculadoraCostoReceta.calcularPrecios(resultado)
-                    DiagnosticLogger.log("VM", "Precios: min=${precios.minimo.precio}, rec=${precios.recomendado.precio}, prem=${precios.premium.precio}")
 
-                    DiagnosticLogger.log("VM", "Emitiendo estado ConDatos...")
                     _state.value = CostoPrecioUiState.ConDatos(
                         receta = receta,
                         resultado = resultado,
                         precios = precios,
                         numInventario = inventario.size
                     )
-                    DiagnosticLogger.log("VM", "Estado emitido OK")
                 } catch (e: Exception) {
                     DiagnosticLogger.logError("VM", "Error en cálculo", e)
                 }

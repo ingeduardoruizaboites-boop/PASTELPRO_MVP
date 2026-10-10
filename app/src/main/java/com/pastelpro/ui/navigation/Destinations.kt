@@ -34,6 +34,7 @@ object Routes {
     // Wizard de nuevo pedido
     const val NUEVO_PEDIDO = "nuevo-pedido"
     const val NOTIFICACIONES = "notificaciones"
+    const val COSTOS_AVANZADOS = "costos-avanzados"
 }
 
 data class BottomNavItem(

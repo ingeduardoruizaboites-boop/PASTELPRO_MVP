@@ -211,4 +211,16 @@
     <string name="receta_molde_otro_tamano">Otro tamaño</string>
     <string name="receta_molde_otro_sub">Ingresar medidas manualmente</string>
     <string name="receta_molde_selecciona_forma">Selecciona el tipo de molde</string>
+
+    <!-- Costos avanzados -->
+    <string name="mas_costos_avanzados">Costos avanzados</string>
+    <string name="mas_costos_avanzados_sub">Gas, luz, otros gastos</string>
+    <string name="costos_avanzados_titulo">Costos avanzados</string>
+    <string name="costos_avanzados_activar">Incluir costo de gas y luz</string>
+    <string name="costos_avanzados_activar_sub">Suma un monto fijo por cada horneada</string>
+    <string name="costos_avanzados_monto">Monto por horneada</string>
+    <string name="costos_avanzados_monto_sub">Cantidad aproximada que gastas en gas y luz por cada pastel horneado.</string>
+    <string name="costos_avanzados_monto_label">Pesos (MXN)</string>
+    <string name="costos_avanzados_explicacion">Ejemplo: si gastas $10 de gas y $3 de luz en una horneada, coloca $13. Esta cantidad se sumará al costo real de cada receta.</string>
+    <string name="costo_precio_gas_luz">Gas y luz</string>
 </resources>

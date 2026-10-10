@@ -43,6 +43,7 @@ object CalculadoraCostoReceta {
         val costoIngredientes: BigDecimal,
         val mermaPorcentaje: BigDecimal,
         val costoMerma: BigDecimal,
+        val costoHorneada: BigDecimal,      // Gas/luz (0 si no aplica)
         val costoTotal: BigDecimal,
         val rendimientoCantidad: Int,
         val costoPorPorcion: BigDecimal,
@@ -60,7 +61,8 @@ object CalculadoraCostoReceta {
     fun calcular(
         receta: Receta,
         inventario: List<Ingrediente>,
-        mermaPorcentaje: BigDecimal = BigDecimal("5")
+        mermaPorcentaje: BigDecimal = BigDecimal("5"),
+        costoHorneada: BigDecimal = BigDecimal.ZERO
     ): Resultado {
         if (mermaPorcentaje < BigDecimal.ZERO || mermaPorcentaje >= BigDecimal(100)) {
             throw CostoRecetaInvalido("El porcentaje de merma debe estar entre 0 y <100: $mermaPorcentaje")
@@ -138,13 +140,27 @@ object CalculadoraCostoReceta {
             BigDecimal.ZERO
         }
 
+        val costoTotalConHorneada = resultadoMerma.costoTotal.add(costoHorneada)
+            .setScale(PRECISION_FINAL, RoundingMode.HALF_UP)
+
+        val costoPorcionFinal = if (receta.rendimientoCantidad > 0) {
+            costoTotalConHorneada.divide(
+                BigDecimal(receta.rendimientoCantidad),
+                PRECISION_FINAL,
+                RoundingMode.HALF_UP
+            )
+        } else {
+            BigDecimal.ZERO
+        }
+
         return Resultado(
             costoIngredientes = resultadoMerma.costoAntes,
             mermaPorcentaje = mermaPorcentaje,
             costoMerma = resultadoMerma.costoMerma,
-            costoTotal = resultadoMerma.costoTotal,
+            costoHorneada = costoHorneada,
+            costoTotal = costoTotalConHorneada,
             rendimientoCantidad = receta.rendimientoCantidad,
-            costoPorPorcion = costoPorPorcion,
+            costoPorPorcion = costoPorcionFinal,
             desglose = desglose,
             faltantes = faltantes
         )

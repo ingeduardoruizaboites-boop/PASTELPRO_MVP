@@ -36,6 +36,8 @@ import com.pastelpro.ui.screens.ShoppingScreen
 import com.pastelpro.ui.screens.SplashScreen
 import com.pastelpro.ui.screens.WelcomeScreen
 import com.pastelpro.ui.screens.ingredientes.IngredientesScreen
+import com.pastelpro.ui.screens.mas.CostosAvanzadosScreen
+import com.pastelpro.ui.screens.mas.CostosAvanzadosViewModel
 import com.pastelpro.ui.screens.mas.MasScreen
 import com.pastelpro.ui.screens.mas.NotificacionesScreen
 import com.pastelpro.ui.screens.mas.NotificacionesViewModel
@@ -120,7 +122,8 @@ fun PastelProApp() {
                 onIrIngredientes = { navController.navigate(Routes.INGREDIENTES) },
                 onIrRecetaDetalle = { id -> navController.navigate(Routes.recetaDetalle(id)) },
                 onIrNuevoPedido = { navController.navigate(Routes.NUEVO_PEDIDO) },
-                onIrNotificaciones = { navController.navigate(Routes.NOTIFICACIONES) }
+                onIrNotificaciones = { navController.navigate(Routes.NOTIFICACIONES) },
+                onIrCostosAvanzados = { navController.navigate(Routes.COSTOS_AVANZADOS) }
             )
         }
 
@@ -148,6 +151,15 @@ fun PastelProApp() {
             CostoPrecioScreen(
                 recetaId = id,
                 onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.COSTOS_AVANZADOS) {
+            CostosAvanzadosScreen(
+                onBack = { navController.popBackStack() },
+                viewModel = androidx.lifecycle.viewmodel.compose.viewModel(
+                    factory = CostosAvanzadosViewModel.Factory
+                )
             )
         }
 
@@ -180,7 +192,8 @@ private fun MainScaffold(
     onIrIngredientes: () -> Unit,
     onIrRecetaDetalle: (String) -> Unit,
     onIrNuevoPedido: () -> Unit,
-    onIrNotificaciones: () -> Unit
+    onIrNotificaciones: () -> Unit,
+    onIrCostosAvanzados: () -> Unit
 ) {
     val innerNav = rememberNavController()
     val backStack by innerNav.currentBackStackEntryAsState()
@@ -245,7 +258,8 @@ private fun MainScaffold(
             composable(Routes.SHOPPING) { ShoppingScreen() }
             composable(Routes.MORE) {
                 MasScreen(
-                    onIrNotificaciones = onIrNotificaciones
+                    onIrNotificaciones = onIrNotificaciones,
+                    onIrCostosAvanzados = onIrCostosAvanzados
                 )
             }
         }

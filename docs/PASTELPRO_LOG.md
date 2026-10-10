@@ -763,3 +763,28 @@ Bloque 10 — Costo gas/luz configurable.
 
 ### SIGUIENTE
 Bloque 10 — Costo gas/luz configurable.
+
+---
+
+## ENTRADA — 2026-10-09 · Sesión 6 · Bloque 10 cerrado (Gas/luz configurable)
+
+**Objetivo:** Costo de gas/luz configurable por horneada.
+
+### QUÉ SE HIZO
+- DataStore: `costoHorneadaActivo` + `costoHorneadaMonto` (default $10).
+- `CalculadoraCostoReceta.calcular()` acepta `costoHorneada: BigDecimal`.
+- `Resultado` incluye campo `costoHorneada`.
+- `CostoPrecioViewModel` lee la config y la pasa al cálculo.
+- `CostoPrecioScreen` muestra línea "Gas y luz" en desglose.
+- Pantalla `CostosAvanzadosScreen` con switch + monto configurable.
+- Opción "Costos avanzados" en tab Más.
+
+### BUG RESUELTO
+- `kotlinx.coroutines.flow.first()` mal usado como función normal (no extensión).
+  Corregido a `flow.first()` con import.
+
+### BUILD
+PASS · 126 tests OK.
+
+### SIGUIENTE
+Bloque 11 — Monetización Pro (Google Play Billing).

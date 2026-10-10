@@ -198,4 +198,15 @@
     <string name="receta_molde_otro_tamano">Outro tamanho</string>
     <string name="receta_molde_otro_sub">Inserir medidas manualmente</string>
     <string name="receta_molde_selecciona_forma">Selecione o tipo de forma</string>
+
+    <string name="mas_costos_avanzados">Custos avançados</string>
+    <string name="mas_costos_avanzados_sub">Gás, luz, outras despesas</string>
+    <string name="costos_avanzados_titulo">Custos avançados</string>
+    <string name="costos_avanzados_activar">Incluir custo de gás e luz</string>
+    <string name="costos_avanzados_activar_sub">Adiciona um valor fixo por fornada</string>
+    <string name="costos_avanzados_monto">Valor por fornada</string>
+    <string name="costos_avanzados_monto_sub">Valor aproximado gasto em gás e luz por bolo assado.</string>
+    <string name="costos_avanzados_monto_label">Pesos (MXN)</string>
+    <string name="costos_avanzados_explicacion">Exemplo: se você gasta $10 de gás e $3 de luz por fornada, coloque $13. Esse valor será somado ao custo real de cada receita.</string>
+    <string name="costo_precio_gas_luz">Gás e luz</string>
 </resources>

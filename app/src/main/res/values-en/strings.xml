@@ -198,4 +198,15 @@
     <string name="receta_molde_otro_tamano">Other size</string>
     <string name="receta_molde_otro_sub">Enter measurements manually</string>
     <string name="receta_molde_selecciona_forma">Select the mold type</string>
+
+    <string name="mas_costos_avanzados">Advanced costs</string>
+    <string name="mas_costos_avanzados_sub">Gas, electricity, other expenses</string>
+    <string name="costos_avanzados_titulo">Advanced costs</string>
+    <string name="costos_avanzados_activar">Include gas and electricity cost</string>
+    <string name="costos_avanzados_activar_sub">Adds a fixed amount per bake</string>
+    <string name="costos_avanzados_monto">Amount per bake</string>
+    <string name="costos_avanzados_monto_sub">Approximate amount you spend on gas and electricity per baked cake.</string>
+    <string name="costos_avanzados_monto_label">Pesos (MXN)</string>
+    <string name="costos_avanzados_explicacion">Example: if you spend $10 on gas and $3 on electricity per bake, enter $13. This amount will be added to the real cost of each recipe.</string>
+    <string name="costo_precio_gas_luz">Gas and electricity</string>
 </resources>
