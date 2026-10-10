@@ -185,4 +185,16 @@
 
     <string name="pedido_editar_titulo">Edit order</string>
     <string name="pedido_porciones">Servings</string>
+
+    <string name="receta_molde_seccion">Mold (optional)</string>
+    <string name="receta_molde_imagen_placeholder">Reference image coming soon</string>
+    <string name="receta_molde_forma">Mold shape</string>
+    <string name="receta_molde_ancho">Width / Diameter (cm)</string>
+    <string name="receta_molde_largo">Length (cm)</string>
+    <string name="receta_molde_alto">Height (cm)</string>
+    <string name="receta_molde_porciones_sugeridas">With this mold: %1$d servings suggested</string>
+    <string name="accion_ocultar">Hide</string>
+
+    <string name="receta_molde_otro_tamano">Other size</string>
+    <string name="receta_molde_otro_sub">Enter measurements manually</string>
 </resources>

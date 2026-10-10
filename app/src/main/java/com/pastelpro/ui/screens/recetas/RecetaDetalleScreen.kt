@@ -163,6 +163,14 @@ private fun ContenidoReceta(
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
             )
+            receta.moldeTexto?.let { molde ->
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = molde,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
             Spacer(Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.receta_ingredientes_titulo),

@@ -26,9 +26,11 @@ class ConfiguracionRepository(private val context: Context) {
         private val KEY_NOTIF_HABILITADAS = booleanPreferencesKey("notificaciones_habilitadas")
         private val KEY_NOTIF_DIAS_ANTES = intPreferencesKey("notificaciones_dias_antes")
         private val KEY_NOTIF_HORA = stringPreferencesKey("notificaciones_hora")
+        private val KEY_CM3_POR_PORCION = intPreferencesKey("cm3_por_porcion")
 
         const val DIAS_ANTES_DEFAULT = 1
         const val HORA_DEFAULT = "09:00"
+        const val CM3_POR_PORCION_DEFAULT = 125
     }
 
     val notificacionesHabilitadas: Flow<Boolean> =
@@ -46,6 +48,11 @@ class ConfiguracionRepository(private val context: Context) {
             prefs[KEY_NOTIF_HORA] ?: HORA_DEFAULT
         }
 
+    val cm3PorPorcion: Flow<Int> =
+        context.dataStore.data.map { prefs ->
+            prefs[KEY_CM3_POR_PORCION] ?: CM3_POR_PORCION_DEFAULT
+        }
+
     suspend fun setNotificacionesHabilitadas(habilitadas: Boolean) {
         context.dataStore.edit { it[KEY_NOTIF_HABILITADAS] = habilitadas }
     }
@@ -53,6 +60,11 @@ class ConfiguracionRepository(private val context: Context) {
     suspend fun setDiasAntes(dias: Int) {
         require(dias in 0..30) { "Los días deben estar entre 0 y 30" }
         context.dataStore.edit { it[KEY_NOTIF_DIAS_ANTES] = dias }
+    }
+
+    suspend fun setCm3PorPorcion(cm3: Int) {
+        require(cm3 in 50..300) { "cm3PorPorcion debe estar entre 50 y 300" }
+        context.dataStore.edit { it[KEY_CM3_POR_PORCION] = cm3 }
     }
 
     suspend fun setHoraNotificacion(hora: String) {

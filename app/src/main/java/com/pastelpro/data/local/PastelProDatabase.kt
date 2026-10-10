@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         RecetaIngredienteEntity::class,
         PedidoEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class PastelProDatabase : RoomDatabase() {
@@ -81,6 +81,17 @@ abstract class PastelProDatabase : RoomDatabase() {
             }
         }
 
+        /** Migración v5 → v6: añade campos de molde a las recetas. Puramente aditiva. */
+        private val MIGRACION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE recetas ADD COLUMN moldeForma TEXT")
+                db.execSQL("ALTER TABLE recetas ADD COLUMN moldeAnchoCm INTEGER")
+                db.execSQL("ALTER TABLE recetas ADD COLUMN moldeLargoCm INTEGER")
+                db.execSQL("ALTER TABLE recetas ADD COLUMN moldeAltoCm INTEGER")
+                db.execSQL("ALTER TABLE recetas ADD COLUMN porcionesPorMolde INTEGER")
+            }
+        }
+
         /** Migración v4 → v5: añade campos opcionales al pedido. Puramente aditiva. */
         private val MIGRACION_4_5 = object : Migration(4, 5) {
             override fun migrate(db: SupportSQLiteDatabase) {
@@ -97,7 +108,7 @@ abstract class PastelProDatabase : RoomDatabase() {
                     PastelProDatabase::class.java,
                     NOMBRE
                 )
-                .addMigrations(MIGRACION_2_3, MIGRACION_3_4, MIGRACION_4_5)
+                .addMigrations(MIGRACION_2_3, MIGRACION_3_4, MIGRACION_4_5, MIGRACION_5_6)
                 .build()
                 .also { INSTANCIA = it }
             }

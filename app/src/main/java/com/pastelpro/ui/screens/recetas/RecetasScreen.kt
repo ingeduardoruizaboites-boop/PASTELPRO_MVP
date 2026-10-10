@@ -116,12 +116,18 @@ fun RecetasScreen(
     }
 
     if (mostrarSheet) {
+        val configRepo = androidx.compose.runtime.remember {
+            com.pastelpro.data.repository.RepositorioProvider.configuracionRepository
+        }
+        val cm3 by configRepo.cm3PorPorcion.collectAsState(initial = 125)
+
         CrearRecetaSheet(
             onDismiss = { mostrarSheet = false },
             onGuardar = { nueva ->
                 viewModel.agregar(nueva)
                 mostrarSheet = false
-            }
+            },
+            cm3PorPorcion = cm3
         )
     }
 }

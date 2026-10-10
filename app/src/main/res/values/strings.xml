@@ -197,4 +197,17 @@
 
     <string name="pedido_editar_titulo">Editar pedido</string>
     <string name="pedido_porciones">Porciones</string>
+
+    <!-- Molde en receta -->
+    <string name="receta_molde_seccion">Molde (opcional)</string>
+    <string name="receta_molde_imagen_placeholder">Imagen de referencia próximamente</string>
+    <string name="receta_molde_forma">Forma del molde</string>
+    <string name="receta_molde_ancho">Ancho / Diámetro (cm)</string>
+    <string name="receta_molde_largo">Largo (cm)</string>
+    <string name="receta_molde_alto">Alto (cm)</string>
+    <string name="receta_molde_porciones_sugeridas">Con este molde: %1$d porciones sugeridas</string>
+    <string name="accion_ocultar">Ocultar</string>
+
+    <string name="receta_molde_otro_tamano">Otro tamaño</string>
+    <string name="receta_molde_otro_sub">Ingresar medidas manualmente</string>
 </resources>

@@ -716,3 +716,31 @@ Bloque 8B — Editar pedidos existentes.
 
 ### SIGUIENTE
 Bloque 9 — Molde + porciones según molde.
+
+---
+
+## ENTRADA — 2026-10-09 · Sesión 6 · Bloque 9B cerrado (Selector de moldes)
+
+**Objetivo:** Rediseñar UX de selección de molde + imágenes + fix validación.
+
+### QUÉ SE HIZO
+- 4 imágenes de moldes copiadas a drawable-xxhdpi.
+- MotorMoldes extendido con 3 moldes de corazón.
+- Nuevo componente `SelectorMoldes`:
+  - Imagen dinámica según forma.
+  - Lista de tamaños estándar con rango de porciones.
+  - Opción "Otro tamaño" con inputs separados.
+  - Validación de rangos (5-60 cm ancho/largo, 3-30 cm alto).
+- `CrearRecetaSheet` refactorizado para usar el componente.
+
+### BUG RESUELTO
+- Bug del input único "4050 → 839808 porciones" eliminado con:
+  - Lista de tamaños predefinidos (sin tipeo).
+  - Inputs separados con teclado numérico limpio.
+  - Validación estricta de rangos.
+
+### BUILD
+PASS · 126 tests OK (MotorMoldes subió a 24 tests con el de corazón).
+
+### SIGUIENTE
+Bloque 10 — Costo gas/luz configurable.

@@ -18,7 +18,12 @@ object RecetaMapper {
         rendimientoCantidad = receta.rendimientoCantidad,
         rendimientoUnidad = receta.rendimientoUnidad,
         ingredientes = ingredientes.map(::ingredienteADominio),
-        notas = receta.notas
+        notas = receta.notas,
+        moldeForma = receta.moldeForma,
+        moldeAnchoCm = receta.moldeAnchoCm,
+        moldeLargoCm = receta.moldeLargoCm,
+        moldeAltoCm = receta.moldeAltoCm,
+        porcionesPorMolde = receta.porcionesPorMolde
     )
 
     fun aEntity(receta: Receta): RecetaEntity = RecetaEntity(
@@ -27,7 +32,12 @@ object RecetaMapper {
         tipo = receta.tipo,
         rendimientoCantidad = receta.rendimientoCantidad,
         rendimientoUnidad = receta.rendimientoUnidad,
-        notas = receta.notas
+        notas = receta.notas,
+        moldeForma = receta.moldeForma,
+        moldeAnchoCm = receta.moldeAnchoCm,
+        moldeLargoCm = receta.moldeLargoCm,
+        moldeAltoCm = receta.moldeAltoCm,
+        porcionesPorMolde = receta.porcionesPorMolde
     )
 
     fun ingredientesAEntities(recetaId: String, items: List<IngredienteDeReceta>): List<RecetaIngredienteEntity> =

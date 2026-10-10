@@ -185,4 +185,16 @@
 
     <string name="pedido_editar_titulo">Editar pedido</string>
     <string name="pedido_porciones">Porções</string>
+
+    <string name="receta_molde_seccion">Forma (opcional)</string>
+    <string name="receta_molde_imagen_placeholder">Imagem de referência em breve</string>
+    <string name="receta_molde_forma">Formato da forma</string>
+    <string name="receta_molde_ancho">Largura / Diâmetro (cm)</string>
+    <string name="receta_molde_largo">Comprimento (cm)</string>
+    <string name="receta_molde_alto">Altura (cm)</string>
+    <string name="receta_molde_porciones_sugeridas">Com esta forma: %1$d porções sugeridas</string>
+    <string name="accion_ocultar">Ocultar</string>
+
+    <string name="receta_molde_otro_tamano">Outro tamanho</string>
+    <string name="receta_molde_otro_sub">Inserir medidas manualmente</string>
 </resources>
