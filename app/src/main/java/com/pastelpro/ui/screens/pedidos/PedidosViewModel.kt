@@ -40,6 +40,33 @@ class PedidosViewModel(
         viewModelScope.launch { repository.eliminar(id) }
     }
 
+    /**
+     * Actualiza un pedido existente.
+     * Si la fecha u hora cambiaron, reprograma las notificaciones.
+     */
+    fun actualizar(pedido: Pedido, diasAntes: Int, horaNotificacion: String, notifHabilitadas: Boolean) {
+        viewModelScope.launch {
+            repository.actualizar(pedido)
+
+            // Si sigue PENDIENTE, reprogramar notificaciones
+            if (pedido.estado == EstadoPedido.PENDIENTE) {
+                try {
+                    com.pastelpro.notificaciones.NotificacionScheduler.reprogramarRecordatorios(
+                        context = application,
+                        pedido = pedido,
+                        diasAntes = diasAntes,
+                        horaNotificacion = horaNotificacion,
+                        habilitadas = notifHabilitadas
+                    )
+                } catch (e: Exception) {
+                    com.pastelpro.diagnostico.DiagnosticLogger.logError(
+                        "PedidosVM", "Error reprogramando notificaciones", e
+                    )
+                }
+            }
+        }
+    }
+
     fun cambiarEstado(id: String, nuevoEstado: EstadoPedido) {
         viewModelScope.launch {
             repository.cambiarEstado(id, nuevoEstado)

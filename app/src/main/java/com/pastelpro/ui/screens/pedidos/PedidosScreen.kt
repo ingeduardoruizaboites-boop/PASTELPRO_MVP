@@ -1,5 +1,6 @@
 package com.pastelpro.ui.screens.pedidos
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,8 +33,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,9 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pastelpro.R
+import com.pastelpro.data.repository.RepositorioProvider
 import com.pastelpro.domain.model.EstadoPedido
 import com.pastelpro.domain.model.Pedido
-import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.Locale
@@ -52,16 +58,23 @@ fun PedidosScreen(
     onNuevoPedido: () -> Unit = {},
     viewModel: PedidosViewModel = viewModel(
         factory = PedidosViewModel.factory(
-            androidx.compose.ui.platform.LocalContext.current.applicationContext as android.app.Application
+            LocalContext.current.applicationContext as android.app.Application
         )
     )
 ) {
     val state by viewModel.uiState.collectAsState()
+    var pedidoEnEdicion by remember { mutableStateOf<Pedido?>(null) }
+
+    // Config de notificaciones (para reprogramar al editar)
+    val configRepo = remember { RepositorioProvider.configuracionRepository }
+    val diasAntes by configRepo.diasAntes.collectAsState(initial = 1)
+    val horaNotif by configRepo.horaNotificacion.collectAsState(initial = "09:00")
+    val notifHabilitadas by configRepo.notificacionesHabilitadas.collectAsState(initial = true)
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         floatingActionButton = {
-            androidx.compose.material3.FloatingActionButton(
+            FloatingActionButton(
                 onClick = onNuevoPedido,
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
@@ -110,6 +123,7 @@ fun PedidosScreen(
                         items(s.pedidos, key = { it.id }) { pedido ->
                             PedidoCard(
                                 pedido = pedido,
+                                onClick = { pedidoEnEdicion = pedido },
                                 onEliminar = { viewModel.eliminar(pedido.id) },
                                 onMarcarEntregado = {
                                     viewModel.cambiarEstado(pedido.id, EstadoPedido.ENTREGADO)
@@ -120,6 +134,23 @@ fun PedidosScreen(
                 }
             }
         }
+    }
+
+    // Sheet de edición
+    pedidoEnEdicion?.let { pedido ->
+        EditarPedidoSheet(
+            pedido = pedido,
+            onDismiss = { pedidoEnEdicion = null },
+            onGuardar = { actualizado ->
+                viewModel.actualizar(
+                    pedido = actualizado,
+                    diasAntes = diasAntes,
+                    horaNotificacion = horaNotif,
+                    notifHabilitadas = notifHabilitadas
+                )
+                pedidoEnEdicion = null
+            }
+        )
     }
 }
 
@@ -171,6 +202,7 @@ private fun EmptyPedidos(onNuevoPedido: () -> Unit) {
 @Composable
 private fun PedidoCard(
     pedido: Pedido,
+    onClick: () -> Unit,
     onEliminar: () -> Unit,
     onMarcarEntregado: () -> Unit
 ) {
@@ -182,7 +214,9 @@ private fun PedidoCard(
     }
 
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surface,
         shadowElevation = 1.dp

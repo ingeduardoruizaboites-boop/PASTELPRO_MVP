@@ -118,6 +118,22 @@ object NotificacionScheduler {
         }
     }
 
+    /**
+     * Reprograma recordatorios: primero cancela los existentes y luego programa nuevos.
+     * Usar al editar un pedido (fecha/hora cambiaron).
+     */
+    fun reprogramarRecordatorios(
+        context: Context,
+        pedido: Pedido,
+        diasAntes: Int,
+        horaNotificacion: String,
+        habilitadas: Boolean
+    ) {
+        cancelarRecordatorios(context, pedido.id)
+        programarRecordatorios(context, pedido, diasAntes, horaNotificacion, habilitadas)
+        DiagnosticLogger.log("Scheduler", "Reprogramación completa para pedido ${pedido.id.take(8)}")
+    }
+
     fun cancelarRecordatorios(context: Context, pedidoId: String) {
         val wm = WorkManager.getInstance(context)
         wm.cancelUniqueWork(nombreWork(pedidoId, RecordatorioWorker.TIPO_DIAS_ANTES))

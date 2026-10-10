@@ -694,3 +694,25 @@ Bloque 8A — Editar ingredientes + dropdown de unidades
 
 ### SIGUIENTE
 Bloque 8B — Editar pedidos existentes.
+
+---
+
+## ENTRADA — 2026-10-09 · Sesión 6 · Bloque 8B cerrado
+
+**Objetivo:** Editar pedidos existentes + reprogramar notificaciones.
+
+### QUÉ SE HIZO
+- `PedidoRepository.actualizar()` + implementación Room.
+- `NotificacionScheduler.reprogramarRecordatorios()` (cancela + programa).
+- `EditarPedidoSheet` con todos los campos + DatePicker + TimePicker.
+- `PedidosViewModel.actualizar(pedido, config)` reprograma notificaciones.
+- `PedidosScreen`: tarjeta clickeable → abre sheet.
+
+### BUG RESUELTO
+- Script Python rompió estructura de PedidosScreen.kt → reescrito completo.
+
+### DISPOSITIVO
+- Xiaomi Redmi Note 9S: edición de pedidos funciona end-to-end.
+
+### SIGUIENTE
+Bloque 9 — Molde + porciones según molde.

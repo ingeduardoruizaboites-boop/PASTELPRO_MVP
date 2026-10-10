@@ -182,4 +182,7 @@
 
     <string name="ingrediente_editar_titulo">Edit ingredient</string>
     <string name="accion_guardar_cambios">Save changes</string>
+
+    <string name="pedido_editar_titulo">Edit order</string>
+    <string name="pedido_porciones">Servings</string>
 </resources>

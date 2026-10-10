@@ -24,6 +24,10 @@ class PedidoRepositoryRoom(
         dao.insertar(PedidoMapper.aEntity(pedido))
     }
 
+    override suspend fun actualizar(pedido: Pedido) {
+        dao.insertar(PedidoMapper.aEntity(pedido))
+    }
+
     override suspend fun eliminar(id: String) {
         dao.eliminar(id)
     }

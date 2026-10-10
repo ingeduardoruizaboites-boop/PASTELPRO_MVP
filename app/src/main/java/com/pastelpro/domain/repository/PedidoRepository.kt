@@ -8,6 +8,7 @@ interface PedidoRepository {
     fun observarTodos(): Flow<List<Pedido>>
     suspend fun obtener(id: String): Pedido?
     suspend fun agregar(pedido: Pedido)
+    suspend fun actualizar(pedido: Pedido)
     suspend fun eliminar(id: String)
     suspend fun cambiarEstado(id: String, nuevoEstado: EstadoPedido)
 }
