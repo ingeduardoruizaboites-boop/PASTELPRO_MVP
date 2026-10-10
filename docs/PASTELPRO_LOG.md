@@ -814,3 +814,35 @@ PASS · APK y AAB firmados correctamente.
 
 ### SIGUIENTE
 Bloque 11B — Materiales de Play Store (ficha, textos, política, screenshots).
+
+---
+
+## ENTRADA — 2026-10-10 · Sesión 7 · Bloque 11B cerrado (Materiales Play Store)
+
+**Objetivo:** Generar todos los materiales requeridos por Google Play Store.
+
+### QUÉ SE HIZO
+- Ficha con textos (nombre, descripciones, categoría, etiquetas, cuestionario).
+- Política de privacidad.
+- Checklist de publicación.
+- Instrucciones de screenshots.
+- Feature graphic 1024x500 generado con ImageMagick.
+- Ícono 512x512 (copia de logo.png).
+- AAB + APK firmados copiados a docs/play_store/binarios/.
+
+### ARCHIVOS
+- docs/play_store/FICHA_APP.md
+- docs/play_store/POLITICA_PRIVACIDAD.md
+- docs/play_store/CHECKLIST.md
+- docs/play_store/screenshots/README.md
+- docs/play_store/feature_graphic_1024x500.png
+- docs/play_store/icono_512x512.png
+- docs/play_store/binarios/app-release.aab
+- docs/play_store/binarios/app-release.apk
+
+### SIGUIENTE
+- Usuario: crear cuenta Play Console ($25 USD).
+- Usuario: tomar 6 screenshots en Xiaomi.
+- Usuario: hospedar política de privacidad (GitHub Pages).
+- Bloque 11C: subir AAB a Internal Testing.
+
