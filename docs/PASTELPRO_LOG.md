@@ -788,3 +788,29 @@ PASS · 126 tests OK.
 
 ### SIGUIENTE
 Bloque 11 — Monetización Pro (Google Play Billing).
+
+---
+
+## ENTRADA — 2026-10-10 · Sesión 7 · Bloque 11A cerrado (Firma digital)
+
+**Objetivo:** Firmar la app para distribución en Google Play.
+
+### QUÉ SE HIZO
+- Keystore `pastelpro-release.jks` generado (RSA 2048, 10000 días).
+- Alias: `pastelpro` · DN: CN=PastelPro, OU=Mobile, O=PastelPro, L=Mexico City, ST=CDMX, C=MX.
+- `keystore.properties` creado + añadido a `.gitignore`.
+- `app/build.gradle.kts` configurado con `signingConfigs.release`.
+- APK release firmado: 13 MB.
+- AAB release firmado: 12 MB.
+- Verificado con `apksigner verify --print-certs` → firma correcta.
+
+### SEGURIDAD
+- Keystore descargado a PC del usuario.
+- Contraseña respaldada en block de notas + se recomienda subir a Drive + gestor.
+- `.jks` NO está en el repo (gitignored).
+
+### BUILD
+PASS · APK y AAB firmados correctamente.
+
+### SIGUIENTE
+Bloque 11B — Materiales de Play Store (ficha, textos, política, screenshots).

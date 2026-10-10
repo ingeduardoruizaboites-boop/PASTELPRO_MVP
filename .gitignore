@@ -25,3 +25,10 @@ release/
 # Firma
 *.jks
 *.keystore
+
+# Firma digital (NUNCA subir a Git)
+keystore.properties
+*.jks
+*.keystore
+*.pepk
+pastelpro-release.jks
